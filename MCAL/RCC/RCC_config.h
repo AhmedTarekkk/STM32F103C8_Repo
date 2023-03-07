@@ -54,4 +54,43 @@
 
 #endif
 
+/*******************************************************************************
+*                      The Trim Value of HSI
+*                      Any value between 0~31
+*                      Default = 16
+*******************************************************************************/
+#define RCC_u8_HSI_TRIM				16
+
+/*******************************************************************************
+*                      Configure the prescaler for the ADC
+*                       1- RCC_u8_ADC_DIVIDED_BY_2
+*						2- RCC_u8_ADC_DIVIDED_BY_4
+*						3- RCC_u8_ADC_DIVIDED_BY_6
+*						4- RCC_u8_ADC_DIVIDED_BY_8
+*******************************************************************************/
+#define RCC_u8_ADC_PRESCALER				RCC_u8_ADC_DIVIDED_BY_2
+
+/*******************************************************************************
+*                      Configure the prescaler for the APBx bus
+*                       1- RCC_u8_APBx_DIVIDED_BY_1
+*						2- RCC_u8_APBx_DIVIDED_BY_2
+*						3- RCC_u8_APBx_DIVIDED_BY_4
+*						4- RCC_u8_APBx_DIVIDED_BY_8
+*						5- RCC_u8_APBx_DIVIDED_BY_16
+*
+*                      Configure the prescaler for the AHB bus
+*                       1- RCC_u8_AHB_DIVIDED_BY_1
+*						2- RCC_u8_AHB_DIVIDED_BY_2
+*						3- RCC_u8_AHB_DIVIDED_BY_4
+*						4- RCC_u8_AHB_DIVIDED_BY_8
+*						5- RCC_u8_AHB_DIVIDED_BY_16
+*						6- RCC_u8_AHB_DIVIDED_BY_64
+*						7- RCC_u8_AHB_DIVIDED_BY_128
+*						8- RCC_u8_AHB_DIVIDED_BY_256
+*						8- RCC_u8_AHB_DIVIDED_BY_512
+*******************************************************************************/
+#define RCC_u8_APB1_PRESCALER				RCC_u8_APBx_DIVIDED_BY_1
+#define RCC_u8_APB2_PRESCALER				RCC_u8_APBx_DIVIDED_BY_1
+#define RCC_u8_AHB_PRESCALER				RCC_u8_AHB_DIVIDED_BY_1
+
 #endif

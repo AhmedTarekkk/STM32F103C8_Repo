@@ -29,6 +29,7 @@ u8 RCC_u8InitSysClk	(void)
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 	u32  Local_u32TimeOut = 0;
 
+	RCC->CR = (RCC->CR &~ (0b11111<<3)) | (RCC_u8_HSI_TRIM<<3); /* Setting the TRIM value for HSI */
 	#if (RCC_u8_CLK_SYS == RCC_u8_HSI)
 
 		SET_BIT(RCC->CR,0); /* write one bit no0 HSION to enable it*/
@@ -100,6 +101,13 @@ u8 RCC_u8InitSysClk	(void)
 		#error"Wrong System Clock Choice"
 
 	#endif
+
+	/* Setting the Prescaler */
+	RCC->CFGR = (RCC->CFGR &~ (0b11<<14))  | (RCC_u8_ADC_PRESCALER<<14);  /* ADC */
+	RCC->CFGR = (RCC->CFGR &~ (0b111<<11)) | (RCC_u8_APB2_PRESCALER<<11); /* APB2 */
+	RCC->CFGR = (RCC->CFGR &~ (0b111<<8))  | (RCC_u8_APB1_PRESCALER<<8);  /* APB1 */
+	RCC->CFGR = (RCC->CFGR &~ (0b1111<<4)) | (RCC_u8_AHB_PRESCALER<<4);   /* AHB */
+	
 	return Local_u8ErrorState;
 }
 

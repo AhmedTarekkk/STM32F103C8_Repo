@@ -43,10 +43,41 @@
 #define RCC_u8_PLL_MULTIPLY_BY_14			0b1100
 #define RCC_u8_PLL_MULTIPLY_BY_15			0b1101
 #define RCC_u8_PLL_MULTIPLY_BY_16			0b1110
+
 /*******************************************************************************
 *                        		HSE Clock Source	                           *
 *******************************************************************************/
 #define RCC_u8_HSE_NOT_BYPASS					1
 #define RCC_u8_HSE_BYPASS						2
+
+/*******************************************************************************
+*                        		ADC Prescaler		                           *
+*******************************************************************************/
+#define RCC_u8_ADC_DIVIDED_BY_2						0b00
+#define RCC_u8_ADC_DIVIDED_BY_4						0b01
+#define RCC_u8_ADC_DIVIDED_BY_6						0b10
+#define RCC_u8_ADC_DIVIDED_BY_8						0b11
+
+/*******************************************************************************
+*                        		APBx Prescaler		                           *
+*******************************************************************************/
+#define RCC_u8_APBx_DIVIDED_BY_1					0b000
+#define RCC_u8_APBx_DIVIDED_BY_2					0b100
+#define RCC_u8_APBx_DIVIDED_BY_4					0b101
+#define RCC_u8_APBx_DIVIDED_BY_8					0b110
+#define RCC_u8_APBx_DIVIDED_BY_16					0b111
+
+/*******************************************************************************
+*                        		AHB Prescaler		                           *
+*******************************************************************************/
+#define RCC_u8_AHB_DIVIDED_BY_1						0b0000
+#define RCC_u8_AHB_DIVIDED_BY_2						0b1000
+#define RCC_u8_AHB_DIVIDED_BY_4						0b1001
+#define RCC_u8_AHB_DIVIDED_BY_8						0b1010
+#define RCC_u8_AHB_DIVIDED_BY_16					0b1011
+#define RCC_u8_AHB_DIVIDED_BY_64					0b1100
+#define RCC_u8_AHB_DIVIDED_BY_128					0b1101
+#define RCC_u8_AHB_DIVIDED_BY_256					0b1110
+#define RCC_u8_AHB_DIVIDED_BY_512					0b1111
 
 #endif
