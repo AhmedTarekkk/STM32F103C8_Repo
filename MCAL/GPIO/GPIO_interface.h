@@ -104,7 +104,7 @@ typedef struct
 u8 GPIO_u8SetPinMode	(const GPIO_PinConfig_t * Copy_PstrPinConfig);
 
 /*******************************************************************************
-* Function Name:		GPIO_u8SetPinMode
+* Function Name:		GPIO_u8SetPinValue
 * Description:			Function to write the required pin value
 * Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t
 * 						value to write in the required pin
@@ -114,7 +114,7 @@ u8 GPIO_u8SetPinMode	(const GPIO_PinConfig_t * Copy_PstrPinConfig);
 u8 GPIO_u8SetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 Copy_u8PinValue);
 
 /*******************************************************************************
-* Function Name:		GPIO_u8SetPinMode
+* Function Name:		GPIO_u8GetPinValue
 * Description:			Function to get the required pin value
 * Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t and
 * 						Pointer to variable to get the ping value in it

@@ -72,7 +72,7 @@ u8 GPIO_u8SetPinMode	(const GPIO_PinConfig_t * Copy_PstrPinConfig)
 }
 
 /*******************************************************************************
-* Function Name:		GPIO_u8SetPinMode
+* Function Name:		GPIO_u8SetPinValue
 ********************************************************************************/
 u8 GPIO_u8SetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 Copy_u8PinValue)
 {
@@ -106,7 +106,7 @@ u8 GPIO_u8SetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 Copy_u8P
 }
 
 /*******************************************************************************
-* Function Name:		GPIO_u8SetPinMode
+* Function Name:		GPIO_u8GetPinValue
 ********************************************************************************/
 u8 GPIO_u8GetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 * Copy_Pu8RetunredPinValue)
 {
