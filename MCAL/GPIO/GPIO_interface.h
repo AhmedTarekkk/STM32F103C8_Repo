@@ -19,8 +19,6 @@
 #define GPIO_u8_GPIOC						2
 #define GPIO_u8_GPIOD						3
 #define GPIO_u8_GPIOE						4
-#define GPIO_u8_GPIOF						5
-#define GPIO_u8_GPIOG						6
 
 /*******************************************************************************
 *                        			PIN 	  	                               *
@@ -75,61 +73,45 @@
 #define GPIO_u8_LOW                        0
 
 /*******************************************************************************
-*                         Types Declaration                                   *
-*******************************************************************************/
-
-/*******************************************************************************
-* Name: GPIO_PinConfig_t
-* Type: Structure
-* Description: Data type to define the required pin
-********************************************************************************/
-typedef struct
-{
-	u8 PortId;
-	u8 PinId;
-	u8 PinMode;
-}GPIO_PinConfig_t;
-
-/*******************************************************************************
 *                      Functions Prototypes                                   *
 *******************************************************************************/
 
 /*******************************************************************************
 * Function Name:		GPIO_u8SetPinMode
 * Description:			Function to set the mode for the required pin mode
-* Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t
+* Parameters (in):    	The required pin number ,port and mode
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 GPIO_u8SetPinMode	(const GPIO_PinConfig_t * Copy_PstrPinConfig);
+u8 GPIO_u8SetPinMode	(u8 Copy_PortId, u8 Copy_PinId, u8 Copy_PinMode);
 
 /*******************************************************************************
-* Function Name:		GPIO_u8SetPinValue
+* Function Name:		GPIO_u8WritePinValue
 * Description:			Function to write the required pin value
-* Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t
-* 						value to write in the required pin
+* Parameters (in):    	Required pin number and port
+* 						Value to write in the required pin
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 GPIO_u8SetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 Copy_u8PinValue);
+u8 GPIO_u8WritePinValue	(u8 Copy_PortId, u8 Copy_PinId, u8 Copy_u8PinValue);
 
 /*******************************************************************************
-* Function Name:		GPIO_u8GetPinValue
+* Function Name:		GPIO_u8SetPinMode
 * Description:			Function to get the required pin value
-* Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t and
+* Parameters (in):    	Required pin number and port
 * 						Pointer to variable to get the ping value in it
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 GPIO_u8GetPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig , u8 * Copy_Pu8RetunredPinValue);
+u8 GPIO_u8GetPinValue	(u8 Copy_PortId, u8 Copy_PinId , u8 * Copy_Pu8RetunredPinValue);
 
 /*******************************************************************************
 * Function Name:		GPIO_u8TogPinValue
 * Description:			Function to toggle the required pin value
-* Parameters (in):    	Pointer to structure of type GPIO_PinConfig_t
+* Parameters (in):    	Required pin number and port
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 GPIO_u8TogPinValue	(const GPIO_PinConfig_t * Copy_PstrPinConfig);
+u8 GPIO_u8TogPinValue	(u8 Copy_PortId, u8 Copy_PinId);
 
 #endif
