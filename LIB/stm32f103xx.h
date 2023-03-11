@@ -38,8 +38,6 @@ typedef struct
 #define GPIOC_u32_BASE_ADDRESS						0x40011000U
 #define GPIOD_u32_BASE_ADDRESS						0x40011400U
 #define GPIOE_u32_BASE_ADDRESS						0x40011800U
-#define GPIOF_u32_BASE_ADDRESS						0x40011C00U
-#define GPIOG_u32_BASE_ADDRESS						0x40012000U
 
 typedef struct
 {
@@ -57,7 +55,5 @@ typedef struct
 #define GPIOC					((GPIO_RegDef_t *)GPIOC_u32_BASE_ADDRESS)
 #define GPIOD					((GPIO_RegDef_t *)GPIOD_u32_BASE_ADDRESS)
 #define GPIOE					((GPIO_RegDef_t *)GPIOE_u32_BASE_ADDRESS)
-#define GPIOF					((GPIO_RegDef_t *)GPIOF_u32_BASE_ADDRESS)
-#define GPIOG					((GPIO_RegDef_t *)GPIOG_u32_BASE_ADDRESS)
 
 #endif
