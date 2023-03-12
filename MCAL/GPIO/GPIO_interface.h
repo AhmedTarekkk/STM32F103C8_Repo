@@ -114,4 +114,13 @@ u8 GPIO_u8GetPinValue	(u8 Copy_PortId, u8 Copy_PinId , u8 * Copy_Pu8RetunredPinV
 ********************************************************************************/
 u8 GPIO_u8TogPinValue	(u8 Copy_PortId, u8 Copy_PinId);
 
+/*******************************************************************************
+* Function Name:		GPIO_u8LockPin
+* Description:			Function to toggle the required pin value
+* Parameters (in):    	Required pin number and port
+* Parameters (out):   	u8
+* Return value:      	OK or Error
+********************************************************************************/
+u8 GPIO_u8LockPin	(u8 Copy_PortId, u8 Copy_PinId);
+
 #endif

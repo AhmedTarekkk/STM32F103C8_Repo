@@ -149,3 +149,38 @@ u8 GPIO_u8TogPinValue	(u8 Copy_PortId, u8 Copy_PinId)
 
 	return Local_u8ErrorState;
 }
+
+/*******************************************************************************
+* Function Name:		GPIO_u8TogPinValue
+********************************************************************************/
+u8 GPIO_u8LockPin	(u8 Copy_PortId, u8 Copy_PinId)
+{
+	u8 Local_u8ErrorState = STD_TYPES_OK;
+	if(Copy_PortId <= GPIO_u8_GPIOE && Copy_PinId <= GPIO_u8_PIN15)
+	{
+		/* write 1 on the required bit to lock it */
+		SET_BIT(GPIO_Astr[Copy_PortId]->LCKR,Copy_PinId);
+
+		/* use the sequence to apply the lock */
+		SET_BIT(GPIO_Astr[Copy_PortId]->LCKR,16); /* Write 1 */
+		CLR_BIT(GPIO_Astr[Copy_PortId]->LCKR,16); /* Write 0 */
+		SET_BIT(GPIO_Astr[Copy_PortId]->LCKR,16); /* Write 1 */
+		if(GET_BIT(GPIO_Astr[Copy_PortId]->LCKR,16) == 0)  /* Read 0 */
+		{
+			if(GET_BIT(GPIO_Astr[Copy_PortId]->LCKR,16) == 0)  /* Read 1 "Optional" */
+			{
+				/* Done Successfully */
+			}
+		}
+		else
+		{
+			Local_u8ErrorState = STD_TYPES_NOK; /* Error in the sequence */
+		}
+	}
+	else
+	{
+		Local_u8ErrorState = STD_TYPES_NOK;
+	}
+
+	return Local_u8ErrorState;
+}
