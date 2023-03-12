@@ -95,10 +95,10 @@ u8 GPIO_u8WritePinValue	(u8 Copy_PortId, u8 Copy_PinId, u8 Copy_u8PinValue)
 		switch(Copy_u8PinValue)
 		{
 		case GPIO_u8_HIGH:
-			SET_BIT(GPIO_Astr[Copy_PortId]->BSRR,Copy_PinId);
+			GPIO_Astr[Copy_PortId]->BSRR = (1<<Copy_PinId);
 			break;
 		case GPIO_u8_LOW:
-			SET_BIT(GPIO_Astr[Copy_PortId]->BRR,Copy_PinId);
+			GPIO_Astr[Copy_PortId]->BRR = (1<<Copy_PinId);
 			break;
 		default:
 			Local_u8ErrorState = STD_TYPES_NOK;
