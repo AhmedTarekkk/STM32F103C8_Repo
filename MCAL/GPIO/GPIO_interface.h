@@ -73,6 +73,12 @@
 #define GPIO_u8_LOW                        0
 
 /*******************************************************************************
+*                        			LOCK STATES 	  	                       *
+*******************************************************************************/
+#define GPIO_u8_LOCK                 	      1
+#define GPIO_u8_UNLOCK                        0
+
+/*******************************************************************************
 *                      Functions Prototypes                                   *
 *******************************************************************************/
 
@@ -121,6 +127,6 @@ u8 GPIO_u8TogPinValue	(u8 Copy_PortId, u8 Copy_PinId);
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 GPIO_u8LockPin	(u8 Copy_PortId, u8 Copy_PinId);
+u8 GPIO_u8LockPin	(u8 Copy_PortId, u8 Copy_PinId ,u8 Copy_LockState);
 
 #endif
