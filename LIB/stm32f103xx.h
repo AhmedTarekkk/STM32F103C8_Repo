@@ -27,7 +27,7 @@ typedef struct
 	volatile u32 CSR;				
 }RCC_RegDef_t;
 
-#define RCC			((RCC_RegDef_t *)RCC_u32_BASE_ADDRESS)
+#define RCC						((RCC_RegDef_t *)RCC_u32_BASE_ADDRESS)
 
 /*******************************************************************************
 *                      				GPIO                     		           *
@@ -55,5 +55,21 @@ typedef struct
 #define GPIOC					((GPIO_RegDef_t *)GPIOC_u32_BASE_ADDRESS)
 #define GPIOD					((GPIO_RegDef_t *)GPIOD_u32_BASE_ADDRESS)
 #define GPIOE					((GPIO_RegDef_t *)GPIOE_u32_BASE_ADDRESS)
+
+/*******************************************************************************
+*                      			SYSTEM TICK                    		           *
+*******************************************************************************/
+
+#define STK_u32_BASE_ADDRESS						0xE000E010U
+
+typedef struct
+{
+	volatile u32 CTRL;
+	volatile u32 LOAD;
+	volatile u32 VAL;
+	volatile u32 CALIB;
+}STK_RegDef_t;
+
+#define STK						((STK_RegDef_t *)STK_u32_BASE_ADDRESS)
 
 #endif
