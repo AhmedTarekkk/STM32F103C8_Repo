@@ -41,6 +41,8 @@ void SysTick_Handler(void)
 	{
 		STK_Pf();
 	}
+	/* Clear The Interrupt Flag */
+	CLR_BIT(STK->CTRL,16);
 }
 
 /*******************************************************************************
