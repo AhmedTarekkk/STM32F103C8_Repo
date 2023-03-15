@@ -57,7 +57,7 @@ typedef struct
 #define GPIOE					((GPIO_RegDef_t *)GPIOE_u32_BASE_ADDRESS)
 
 /*******************************************************************************
-*                      			SYSTEM TICK                    		           *
+*                      				SYSTICK                    		           *
 *******************************************************************************/
 
 #define STK_u32_BASE_ADDRESS						0xE000E010U
@@ -71,5 +71,31 @@ typedef struct
 }STK_RegDef_t;
 
 #define STK						((STK_RegDef_t *)STK_u32_BASE_ADDRESS)
+
+/*******************************************************************************
+*                      				NVIC                    		           *
+*******************************************************************************/
+
+#define NVIC_u32_BASE_ADDRESS						0xE000E100U
+
+typedef struct
+{
+	volatile u32 ISER[2];
+	volatile u32 RESERVED1[30];
+	volatile u32 ICER[2];
+	volatile u32 RESERVED2[30];
+	volatile u32 ISPR[2];
+	volatile u32 RESERVED3[30];
+	volatile u32 ICPR[2];
+	volatile u32 RESERVED4[30];
+	volatile u32 IABR[2];
+	volatile u32 RESERVED5[62];
+	volatile u32 IPR[11]; /* Can handle up to 43 interrupt So IPR10 -> 10*4+3 = 43 */
+	volatile u32 RESERVED6[693];
+	volatile u32 STIR;
+}NVIC_RegDef_t;
+
+#define NVIC					((NVIC_RegDef_t *)NVIC_u32_BASE_ADDRESS)
+#define SCB_AIRCR				(*(volatile u32*)(0xE000ED0CU))
 
 #endif
