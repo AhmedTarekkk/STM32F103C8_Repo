@@ -153,22 +153,12 @@ u8 GPIO_u8TogPinValue	(u8 Copy_PortId, u8 Copy_PinId)
 /*******************************************************************************
 * Function Name:		GPIO_u8TogPinValue
 ********************************************************************************/
-u8 GPIO_u8LockPin	(u8 Copy_PortId, u8 Copy_PinId ,u8 Copy_LockState)
+u8 GPIO_u8LockPort	(u8 Copy_PortId, u8 Copy_PortValue)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
-	if(Copy_PortId <= GPIO_u8_GPIOE && Copy_PinId <= GPIO_u8_PIN15)
+	if(Copy_PortId <= GPIO_u8_GPIOE && Copy_PortValue <= 0xFF)
 	{
-
-		switch(Copy_LockState)
-		{
-		case GPIO_u8_LOCK:
-			SET_BIT(GPIO_Astr[Copy_PortId]->LCKR,Copy_PinId); /* write 1 on the required bit to lock it */
-			break;
-		case GPIO_u8_UNLOCK:
-			CLR_BIT(GPIO_Astr[Copy_PortId]->LCKR,Copy_PinId); /* write 0 on the required bit to unlock it */
-			break;
-		}
-
+		GPIO_Astr[Copy_PortId]->LCKR = Copy_PortValue;
 
 		/* use the sequence to apply the lock */
 		SET_BIT(GPIO_Astr[Copy_PortId]->LCKR,16); /* Write 1 */
