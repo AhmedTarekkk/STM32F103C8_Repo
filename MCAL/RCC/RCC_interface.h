@@ -14,67 +14,67 @@
 /*******************************************************************************
 *                        		AHB Peripherals                                *
 *******************************************************************************/
-#define	DMA1_RCC				0
-#define	DMA2_RCC				1
-#define	SRAM_RCC				2
-#define	FLITF_RCC				4
-#define	CRC_RCC					6
-#define	FSMC_RCC				8
+#define	RCC_u8_DMA1					0
+#define	RCC_u8_DMA2					1
+#define	RCC_u8_SRAM					2
+#define	RCC_u8_FLITF				4
+#define	RCC_u8_CRC					6
+#define	RCC_u8_FSMC					8
 
 /*******************************************************************************
 *                        		APB2 Peripherals                               *
 *******************************************************************************/
-#define	AFIO_RCC				(0  +32)
-#define	GPIOA_RCC				(2  +32)
-#define	GPIOB_RCC				(3  +32)
-#define	GPIOC_RCC				(4  +32)
-#define	GPIOD_RCC				(5  +32)
-#define	GPIOE_RCC				(6  +32)
-#define	GPIOF_RCC				(7  +32)
-#define	GPIOG_RCC				(8  +32)
-#define	ADC1_RCC				(9  +32)
-#define	ADC2_RCC				(10 +32)
-#define	TIM1_RCC				(11 +32)
-#define	SPI1_RCC				(12 +32)
-#define	TIM8_RCC				(13 +32)
-#define	USART1_RCC				(14 +32)
-#define	ADC3_RCC				(15 +32)
-#define	TIM9_RCC				(19 +32)
-#define	TIM10_RCC				(20 +32)
-#define	TIM11_RCC				(21 +32)
+#define	RCC_u8_AFIO					(0  +32)
+#define	RCC_u8_GPIOA				(2  +32)
+#define	RCC_u8_GPIOB				(3  +32)
+#define	RCC_u8_GPIOC				(4  +32)
+#define	RCC_u8_GPIOD				(5  +32)
+#define	RCC_u8_GPIOE				(6  +32)
+#define	RCC_u8_GPIOF				(7  +32)
+#define	RCC_u8_GPIOG				(8  +32)
+#define	RCC_u8_ADC1					(9  +32)
+#define	RCC_u8_ADC2					(10 +32)
+#define	RCC_u8_TIM1					(11 +32)
+#define	RCC_u8_SPI1					(12 +32)
+#define	RCC_u8_TIM8					(13 +32)
+#define	RCC_u8_USART1				(14 +32)
+#define	RCC_u8_ADC3					(15 +32)
+#define	RCC_u8_TIM9					(19 +32)
+#define	RCC_u8_TIM10				(20 +32)
+#define	RCC_u8_TIM11				(21 +32)
 
 /*******************************************************************************
 *                        		APB1 Peripherals                               *
 *******************************************************************************/
-#define	TIM2_RCC				(0  +64)
-#define	TIM3_RCC				(1  +64)
-#define	TIM4_RCC				(2  +64)
-#define	TIM5_RCC				(3  +64)
-#define	TIM6_RCC				(4  +64)
-#define	TIM7_RCC				(5  +64)
-#define	TIM12_RCC				(6  +64)
-#define	TIM13_RCC				(7  +64)
-#define	TIM14_RCC				(8  +64)
-#define	WWD_RCC					(11 +64)
-#define	SPI2_RCC				(14 +64)
-#define	SPI3_RCC				(15 +64)
-#define	USART2_RCC				(17 +64)
-#define	USART3_RCC				(18 +64)
-#define	USART4_RCC				(19 +64)
-#define	USART5_RCC				(20 +64)
-#define	I2C1_RCC				(21 +64)
-#define	I2C2_RCC				(22 +64)
-#define	USB_RCC					(23 +64)
-#define	CAN_RCC					(25 +64)
-#define	BKP_RCC					(27 +64)
-#define	PWR_RCC					(28 +64)
-#define	DAC_RCC					(29 +64)
+#define	RCC_u8_TIM2					(0  +64)
+#define	RCC_u8_TIM3					(1  +64)
+#define	RCC_u8_TIM4					(2  +64)
+#define	RCC_u8_TIM5					(3  +64)
+#define	RCC_u8_TIM6					(4  +64)
+#define	RCC_u8_TIM7					(5  +64)
+#define	RCC_u8_TIM12				(6  +64)
+#define	RCC_u8_TIM13				(7  +64)
+#define	RCC_u8_TIM14				(8  +64)
+#define	RCC_u8_WWD					(11 +64)
+#define	RCC_u8_SPI2					(14 +64)
+#define	RCC_u8_SPI3					(15 +64)
+#define	RCC_u8_USART2				(17 +64)
+#define	RCC_u8_USART3				(18 +64)
+#define	RCC_u8_USART4				(19 +64)
+#define	RCC_u8_USART5				(20 +64)
+#define	RCC_u8_I2C1					(21 +64)
+#define	RCC_u8_I2C2					(22 +64)
+#define	RCC_u8_USB					(23 +64)
+#define	RCC_u8_CAN					(25 +64)
+#define	RCC_u8_BKP					(27 +64)
+#define	RCC_u8_PWR					(28 +64)
+#define	RCC_u8_DAC					(29 +64)
 
 /*******************************************************************************
 *                        		Peripherals State                              *
 *******************************************************************************/
-#define Disable		0
-#define Enable		1
+#define RCC_u8_Disable		0
+#define RCC_u8_Enable		1
 
 /*******************************************************************************
 *                      Functions Prototypes                                   *
@@ -84,8 +84,8 @@
 * Function Name:		RCC_u8InitSysClk
 * Description:			Function to init the system clock source
 * Parameters (in):    	void
-* Parameters (out):   	OK or Error
-* Return value:      	DHT11_response
+* Parameters (out):   	u8
+* Return value:      	OK or Error
 ********************************************************************************/
 u8 RCC_u8InitSysClk	(void);
 

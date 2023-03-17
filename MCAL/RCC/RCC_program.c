@@ -122,10 +122,10 @@ u8 RCC_u8EnableDisablPeripheralClk	(u8 Copy_u8PeripheralId ,u8 Copy_u8State)
 	{
 		switch(Copy_u8State)
 		{
-		case Enable:
+		case RCC_u8_Enable:
 			SET_BIT(RCC->AHBENR,Copy_u8PeripheralId);
 			break;
-		case Disable:
+		case RCC_u8_Disable:
 			CLR_BIT(RCC->AHBENR,Copy_u8PeripheralId);
 			break;
 		default:
@@ -137,10 +137,10 @@ u8 RCC_u8EnableDisablPeripheralClk	(u8 Copy_u8PeripheralId ,u8 Copy_u8State)
 		Copy_u8PeripheralId -= 32;
 		switch(Copy_u8State)
 		{
-		case Enable:
+		case RCC_u8_Enable:
 			SET_BIT(RCC->APB2ENR,Copy_u8PeripheralId);
 			break;
-		case Disable:
+		case RCC_u8_Disable:
 			CLR_BIT(RCC->APB2ENR,Copy_u8PeripheralId);
 			break;
 		default:
@@ -152,10 +152,10 @@ u8 RCC_u8EnableDisablPeripheralClk	(u8 Copy_u8PeripheralId ,u8 Copy_u8State)
 		Copy_u8PeripheralId -= 64;
 		switch(Copy_u8State)
 		{
-		case Enable:
+		case RCC_u8_Enable:
 			SET_BIT(RCC->APB1ENR,Copy_u8PeripheralId);
 			break;
-		case Disable:
+		case RCC_u8_Disable:
 			CLR_BIT(RCC->APB1ENR,Copy_u8PeripheralId);
 			break;
 		default:
