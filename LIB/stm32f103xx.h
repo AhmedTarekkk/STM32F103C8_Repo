@@ -57,6 +57,22 @@ typedef struct
 #define GPIOE					((GPIO_RegDef_t *)GPIOE_u32_BASE_ADDRESS)
 
 /*******************************************************************************
+*                      				AFIO                     		           *
+*******************************************************************************/
+
+#define AFIO_u32_BASE_ADDRESS						0x40010000U
+
+typedef struct
+{
+	volatile u32 EVCR;
+	volatile u32 MAPR;
+	volatile u32 EXTICR[4];
+	volatile u32 MAPR2;
+}AFIO_RegDef_t;
+
+#define AFIO					((AFIO_RegDef_t*)AFIO_u32_BASE_ADDRESS)
+
+/*******************************************************************************
 *                      				SYSTICK                    		           *
 *******************************************************************************/
 
