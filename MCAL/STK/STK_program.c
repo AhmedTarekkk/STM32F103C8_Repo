@@ -21,7 +21,7 @@
 *******************************************************************************/
 
 /* to store the address of the function to be the ISR */
-static volatile void (*STK_Pf)(void) = NULL;
+static void (*STK_Pf)(void) = NULL;
 static u8 STK_u8ModeOfInterval; /* Variable to save the current mode of the STK */
 
 /*******************************************************************************
