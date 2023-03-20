@@ -67,6 +67,7 @@ typedef struct
 	volatile u32 EVCR;
 	volatile u32 MAPR;
 	volatile u32 EXTICR[4];
+	volatile u32 RESERVED1;
 	volatile u32 MAPR2;
 }AFIO_RegDef_t;
 
@@ -180,5 +181,28 @@ typedef struct
 }DMA_RegDef_t;
 
 #define DMA						((DMA_RegDef_t*)DMA_u32_BASE_ADDRESS)
+
+/*******************************************************************************
+*                      			UART	                    		          *
+*******************************************************************************/
+
+#define UART1_u32_BASE_ADDRESS						0x40013800U
+#define UART2_u32_BASE_ADDRESS						0x40004400U
+#define UART3_u32_BASE_ADDRESS						0x40004800U
+
+typedef struct
+{
+	volatile u32 SR;
+	volatile u32 DR;
+	volatile u32 BRR;
+	volatile u32 CR1;
+	volatile u32 CR2;
+	volatile u32 CR3;
+	volatile u32 GTPR;
+}UART_RegDef_t;
+
+#define UART1						((UART_RegDef_t*)UART1_u32_BASE_ADDRESS)
+#define UART2						((UART_RegDef_t*)UART2_u32_BASE_ADDRESS)
+#define UART3						((UART_RegDef_t*)UART3_u32_BASE_ADDRESS)
 
 #endif
