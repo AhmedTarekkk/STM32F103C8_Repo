@@ -21,7 +21,7 @@
 #define AFIO_u8_PORTE							4
 
 /*******************************************************************************
-*                       	   		AFIO EXTI LINE                 	               *
+*                       	   		AFIO EXTI LINE                 	           *
 *******************************************************************************/
 #define AFIO_u8_EXTI_LINE0						0
 #define AFIO_u8_EXTI_LINE1						1
@@ -41,6 +41,26 @@
 #define AFIO_u8_EXTI_LINE15						15
 
 /*******************************************************************************
+*                       	   		AFIO UART LINE                  	       *
+*******************************************************************************/
+#define AFIO_u8_UART1							0
+#define AFIO_u8_UART2							1
+#define AFIO_u8_UART3							2
+
+/*******************************************************************************
+*                       	   		AFIO UART REMAP                  	       *
+*******************************************************************************/
+#define AFIO_u8_UART1_Tx_PA9_Rx_PA10			0
+#define AFIO_u8_UART1_Tx_PB6_Rx_PB7				1
+
+#define AFIO_u8_UART2_Tx_PA2_Rx_PA3				0
+#define AFIO_u8_UART2_Tx_PD5_Rx_PD6				1
+
+#define AFIO_u8_UART3_Tx_PB10_Rx_PB11			0
+#define AFIO_u8_UART3_Tx_PC10_Rx_PC11			1
+#define AFIO_u8_UART3_Tx_PD8_Rx_PD9				3
+
+/*******************************************************************************
 *                      Functions Prototypes                                   *
 *******************************************************************************/
 
@@ -53,5 +73,15 @@
 * Return value:      	OK or Error
 ********************************************************************************/
 u8 AFIO_u8SetEXTIPortSource(u8 Copy_u8EXTINumber , u8 Copy_u8PortNumber);
+
+/*******************************************************************************
+* Function Name:		AFIO_u8SetUARTConfiguration
+* Description:			Function to enable or disable the required EXTI mask
+* Parameters (in):    	The UART number
+* 						Re-map we want
+* Parameters (out):   	u8
+* Return value:      	OK or Error
+********************************************************************************/
+u8 AFIO_u8SetUARTConfiguration(u8 Copy_u8UARTNumber , u8 Copy_u8RemapValue);
 
 #endif
