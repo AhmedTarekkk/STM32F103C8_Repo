@@ -16,6 +16,14 @@
 #include "STK_interface.h"
 #include "stdlib.h"
 
+/*******************************************************************************
+*                      Functions Definitions                                   *
+*******************************************************************************/
+
+/*******************************************************************************
+* Function Name:		LCD_init
+********************************************************************************/
+
 void LCD_init(void)
 {
 	RCC_u8EnableDisablPeripheralClk(LCD_u8_RCC_BUS, RCC_u8_Enable);
@@ -52,6 +60,10 @@ void LCD_init(void)
 
 	STK_u8SetBusyWait(10000);
 }
+
+/*******************************************************************************
+* Function Name:		LCD_sendCommand
+********************************************************************************/
 
 void LCD_sendCommand(u8 command)
 {
@@ -97,6 +109,10 @@ void LCD_sendCommand(u8 command)
 #endif
 }
 
+/*******************************************************************************
+* Function Name:		LCD_displayCharacter
+********************************************************************************/
+
 void LCD_displayCharacter(u8 data)
 {
 	GPIO_u8WritePinValue(LCD_u8_RS_PORT_ID, LCD_u8_RS_PIN_ID, GPIO_u8_HIGH); /* Rs = 0 */
@@ -140,6 +156,10 @@ void LCD_displayCharacter(u8 data)
 #endif
 }
 
+/*******************************************************************************
+* Function Name:		LCD_displayString
+********************************************************************************/
+
 void LCD_displayString(char * string)
 {
 	for(u8 i = 0 ; string[i]!='\0' ; i++)
@@ -148,10 +168,18 @@ void LCD_displayString(char * string)
 	}
 }
 
+/*******************************************************************************
+* Function Name:		LCD_clearScreen
+********************************************************************************/
+
 void LCD_clearScreen()
 {
 	LCD_sendCommand(LCD_CLEAR_COMMAND);
 }
+
+/*******************************************************************************
+* Function Name:		LCD_moveCursor
+********************************************************************************/
 
 void LCD_moveCursor(u8 row,u8 column)
 {
@@ -175,11 +203,19 @@ void LCD_moveCursor(u8 row,u8 column)
 	LCD_sendCommand(LCD_cursorAdress);
 }
 
+/*******************************************************************************
+* Function Name:		LCD_displayStringRowColumn
+********************************************************************************/
+
 void LCD_displayStringRowColumn(u8 row , u8 column , char * string)
 {
 	LCD_moveCursor(row,column);
 	LCD_displayString(string);
 }
+
+/*******************************************************************************
+* Function Name:		LCD_intgerToString
+********************************************************************************/
 
 void LCD_intgerToString(int number)
 {
