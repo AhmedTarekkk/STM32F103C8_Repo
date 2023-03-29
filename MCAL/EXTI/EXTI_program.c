@@ -35,12 +35,12 @@ u8 EXTI_u8SetInterruptStatus(u8 Copy_u8EXTINumber ,u8 Copy_u8EXTIStatus )
 	{
 		switch(Copy_u8EXTIStatus)
 		{
-		case EXTI_u8_MASKED:
+		case EXTI_u8_ENABLE:
 			LocalErrorState = STD_TYPES_OK;
 			SET_BIT(EXTI->IMR,Copy_u8EXTINumber);
 			break;
 
-		case EXTI_u8_NOT_MASKED:
+		case EXTI_u8_DISABLE:
 			LocalErrorState = STD_TYPES_OK;
 			CLR_BIT(EXTI->IMR,Copy_u8EXTINumber);
 			break;
@@ -65,12 +65,12 @@ u8 EXTI_u8SetEventtStatus(u8 Copy_u8EXTINumber ,u8 Copy_u8EXTIStatus )
 	{
 		switch(Copy_u8EXTIStatus)
 		{
-		case EXTI_u8_NOT_MASKED:
+		case EXTI_u8_ENABLE:
 			LocalErrorState = STD_TYPES_OK;
 			SET_BIT(EXTI->EMR,Copy_u8EXTINumber);
 			break;
 
-		case EXTI_u8_MASKED:
+		case EXTI_u8_DISABLE:
 			LocalErrorState = STD_TYPES_OK;
 			CLR_BIT(EXTI->EMR,Copy_u8EXTINumber);
 			break;
