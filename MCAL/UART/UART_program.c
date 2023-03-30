@@ -45,7 +45,10 @@ u8 UART_u8Init(u8 Copy_u8UartNumber, UART_configStruct_t * Copy_PstrUARTConfig)
 		UART_Astr[Copy_u8UartNumber]->CR2 = 0;
 		UART_Astr[Copy_u8UartNumber]->CR1 |= ((Copy_PstrUARTConfig->UART_u8_DATA_SIZE & 0b1) << 12);
 		UART_Astr[Copy_u8UartNumber]->CR1 |= ((Copy_PstrUARTConfig->UART_u8_PARTIY & 0b11) << 9);
+		/* First bit indicates the receive is interrupt or polling */
 		UART_Astr[Copy_u8UartNumber]->CR1 |= ((Copy_PstrUARTConfig->UART_u8_RECEIVE_METHOD & 0b1) << 5);
+		/* Second and third bit indicates the DMA Configuration */
+		UART_Astr[Copy_u8UartNumber]->CR3 |= (((Copy_PstrUARTConfig->UART_u8_RECEIVE_METHOD>>1) & 0b11) << 6);
 		UART_Astr[Copy_u8UartNumber]->CR2 |= ((Copy_PstrUARTConfig->UART_u8_STOP_BIT&0b11) << 12);
 		Global_UARTEND_STRING[Copy_u8UartNumber] = Copy_PstrUARTConfig->UART_u8_END_STRING ;
 

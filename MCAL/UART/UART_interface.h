@@ -40,10 +40,12 @@ typedef struct
 #define UART_u8_3								2
 
 /*******************************************************************************
-*                       	   	INTERRUPT		                	           *
+*                       	   	STOP BITS		   		                       *
 *******************************************************************************/
-#define UART_u8_POLLING							0
-#define UART_u8_INTERRUP						1
+#define UART_u8_STOP_1_BIT						0b00
+#define UART_u8_STOP_0_5_BIT					0b01
+#define UART_u8_STOP_2_BITS						0b10
+#define UART_u8_STOP_1_5_BITS					0b11
 
 /*******************************************************************************
 *                       	   	DATA SIZE		                	           *
@@ -59,12 +61,14 @@ typedef struct
 #define UART_u8_PARITY_ODD						0b11
 
 /*******************************************************************************
-*                       	   	STOP BITS		   		                       *
+*                       	   	RECEIVE METHOD		                	       *
 *******************************************************************************/
-#define UART_u8_STOP_1_BIT						0b00
-#define UART_u8_STOP_0_5_BIT					0b01
-#define UART_u8_STOP_2_BITS						0b10
-#define UART_u8_STOP_1_5_BITS					0b11
+#define UART_u8_POLLING							0b000 /* DMA disabled, send and receive with poling */
+#define UART_u8_INTERRUP						0b001 /* DMA disabled, send with polling and receive with interrupt */
+#define UART_u8_DMA_TX_POL_RX					0b100 /* Send with DMA receive with polling */
+#define UART_u8_DMA_TX_INT_RX					0b101 /* Send with DMA receive with interrupt */
+#define UART_u8_DMA_RX							0b010 /* Receive with DMA send with polling */
+#define UART_u8_DMA_TX_RX						0b110 /* Send with DMA receive with DMA */
 
 /*******************************************************************************
 *                       Functions Prototypes                                   *

@@ -36,8 +36,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR1 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -55,8 +54,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR2 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -74,8 +72,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR3 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -93,8 +90,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR4 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -112,8 +108,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR5 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -131,8 +126,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR6 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{
@@ -150,8 +144,7 @@ u8 DMA_u8ChannelInit	(DMA_configStruct_t * Copy_PstrDMAChannelConfig)
 		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->ChannelPriority & 0b11) << 12 );
 		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 10 );
 		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->DataSize & 0b11) << 8  );
-		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 6 );
-		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b1) << 7 );
+		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->IncrementMode & 0b11) << 6 );
 		DMA->CCR7 |= ((Copy_PstrDMAChannelConfig->EnableTCInt & 0b1) << 1);
 		if(Copy_PstrDMAChannelConfig->DataTransferType == DMA_u8_MEM_TO_MEM)
 		{

@@ -74,8 +74,21 @@ typedef struct
 /*******************************************************************************
 *                       	   	AUTO INCREMENT	                	           *
 *******************************************************************************/
-#define DMA_u8_AUTO_INC_DISABLE							0
-#define DMA_u8_AUTO_INC_ENABLE								1
+#define DMA_u8_AUTO_INC_DISABLE					0
+#define DMA_u8_AUTO_INC_PER						1
+#define DMA_u8_AUTO_INC_MEM						2
+#define DMA_u8_AUTO_INC_PER_MEM					3
+
+/*******************************************************************************
+*                         	PERIPHERALS ADDRESS AND CHANNEL	                   *
+*******************************************************************************/
+#define DMA_u8_UART1_TX_CH4						(u32)(&(UART1->DR))
+#define DMA_u8_UART1_RX_CH5						(u32)(&(UART1->DR))
+#define DMA_u8_UART2_TX_CH7						(u32)(&(UART2->DR))
+#define DMA_u8_UART2_RX_CH6						(u32)(&(UART2->DR))
+#define DMA_u8_UART3_TX_CH2						(u32)(&(UART3->DR))
+#define DMA_u8_UART3_RX_CH3						(u32)(&(UART3->DR))
+/* Update the rest of the peripherals data address when you need them */
 
 /*******************************************************************************
 *                       Functions Prototypes                                   *
