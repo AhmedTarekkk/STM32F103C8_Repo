@@ -235,6 +235,6 @@ typedef struct
 	volatile u32 DMAR;
 }TIMER1_RegDef_t;
 
-#define TIMER1				((ADVTIMER_RegDef_t *)TIMER1_u32_BASE_ADDRESS)
+#define TIMER1				((TIMER1_RegDef_t *)TIMER1_u32_BASE_ADDRESS)
 
 #endif
