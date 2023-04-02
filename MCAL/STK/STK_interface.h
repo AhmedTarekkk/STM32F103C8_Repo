@@ -8,17 +8,27 @@
 #define STK_INTERFACE_H
 
 /*******************************************************************************
+*                        		Definitions                                    *
+*******************************************************************************/
+
+/*******************************************************************************
+*                        		Clock Source	                               *
+*******************************************************************************/
+#define STK_u8_AHB						0
+#define STK_u8_AHB_8					1
+
+/*******************************************************************************
 *                      Functions Prototypes                                   *
 *******************************************************************************/
 
 /*******************************************************************************
-* Function Name:		STK_voidInit
+* Function Name:		STK_u8Init
 * Description:			Function to init the systick clock source and disable it
 * Parameters (in):    	void
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 STK_voidInit(void);
+u8 STK_u8Init(u8 Copy_u8ClockSource);
 
 /*******************************************************************************
 * Function Name:		STK_u8SetBusyWait
@@ -50,13 +60,13 @@ u8 STK_u8SetIntervalSingle(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void));
 u8 STK_u8SetIntervalPeriodic(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void));
 
 /*******************************************************************************
-* Function Name:		STK_voidStop
+* Function Name:		STK_u8Stop
 * Description:			Function to stop and disable the systick timer
 * Parameters (in):    	void
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 STK_voidStop(void);
+u8 STK_u8Stop(void);
 
 /*******************************************************************************
 * Function Name:		STK_u8GetElapsedTime

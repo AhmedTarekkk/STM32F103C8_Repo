@@ -25,45 +25,29 @@ static void (*STK_Pf)(void) = NULL;
 static u8 STK_u8ModeOfInterval; /* Variable to save the current mode of the STK */
 
 /*******************************************************************************
-*                       Interrupt Service Routines                            *
-*******************************************************************************/
-void SysTick_Handler(void)
-{
-	if(STK_u8ModeOfInterval == STK_u8_SINGLE_INTERVAL)
-	{
-		/* Disable and Stop The Timer */
-		CLR_BIT(STK->CTRL,0);
-		CLR_BIT(STK->CTRL,1);
-		STK->LOAD = 0;
-		STK->VAL  = 0;
-	}
-	if(STK_Pf != NULL)
-	{
-		STK_Pf();
-	}
-	/* Clear The Interrupt Flag */
-	CLR_BIT(STK->CTRL,16);
-}
-
-/*******************************************************************************
 *                      Functions Definitions                                   *
 *******************************************************************************/
 
 /*******************************************************************************
 * Function Name:		STK_voidInit
 ********************************************************************************/
-u8 STK_voidInit(void)
+u8 STK_u8Init(u8 Copy_u8ClockSource)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 
 	/* Choose the Clock Source */
-	#if (STK_u8_CLK_SRC == STK_u8_AHB)
+	if(Copy_u8ClockSource == STK_u8_AHB)
+	{
 		SET_BIT(STK->CTRL,2);
-	#elif (STK_u8_CLK_SRC == STK_u8_AHB_8)
+	}
+	else if (Copy_u8ClockSource == STK_u8_AHB_8)
+	{
 		CLR_BIT(STK->CTRL,2);
-	#else
-		#error"Wrong Systick Clock Source"
-	#endif
+	}
+	else
+	{
+		Local_u8ErrorState = STD_TYPES_NOK;
+	}
 	/* Disable the timer */
 	CLR_BIT(STK->CTRL,0);
 
@@ -157,9 +141,9 @@ u8 STK_u8SetIntervalPeriodic(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void))
 }
 
 /*******************************************************************************
-* Function Name:		STK_voidStop
+* Function Name:		STK_u8Stop
 ********************************************************************************/
-u8 STK_voidStop(void)
+u8 STK_u8Stop(void)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 
@@ -206,4 +190,25 @@ u8 STK_u8GetRemainingTime    (u32 * Copy_pu32RemainingTime)
 	}
 
 	return Local_u8ErrorState;
+}
+
+/*******************************************************************************
+*                       Interrupt Service Routines                            *
+*******************************************************************************/
+void SysTick_Handler(void)
+{
+	if(STK_u8ModeOfInterval == STK_u8_SINGLE_INTERVAL)
+	{
+		/* Disable and Stop The Timer */
+		CLR_BIT(STK->CTRL,0);
+		CLR_BIT(STK->CTRL,1);
+		STK->LOAD = 0;
+		STK->VAL  = 0;
+	}
+	if(STK_Pf != NULL)
+	{
+		STK_Pf();
+	}
+	/* Clear The Interrupt Flag */
+	CLR_BIT(STK->CTRL,16);
 }

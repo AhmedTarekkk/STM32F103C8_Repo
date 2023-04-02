@@ -7,12 +7,5 @@
 #ifndef STK_CONFIG_H
 #define STK_CONFIG_H
 
-/*******************************************************************************
-*                      Configure the systick clock source
-*                      1- STK_u8_AHB
-*                      2- STK_u8_AHB_8
-*******************************************************************************/
-#define STK_u8_CLK_SRC			STK_u8_AHB
-
 
 #endif
