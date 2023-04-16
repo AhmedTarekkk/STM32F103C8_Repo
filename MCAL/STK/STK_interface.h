@@ -31,13 +31,22 @@
 u8 STK_u8Init(u8 Copy_u8ClockSource);
 
 /*******************************************************************************
-* Function Name:		STK_u8SetBusyWait
-* Description:			Function to create delay with the systick timer
+* Function Name:		STK_u8SetuSBusyWait
+* Description:			Function to create microsecond delay with the systick timer
 * Parameters (in):    	The number of ticks required to delay
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 STK_u8SetBusyWait(u32 Copy_u32NumOfTicks);
+u8 STK_u8SetuSBusyWait(u32 Copy_u32TimeInUs);
+
+/*******************************************************************************
+* Function Name:		STK_u8SetmSBusyWait
+* Description:			Function to create millisecond delay with the systick timer
+* Parameters (in):    	The number of ticks required to delay
+* Parameters (out):   	u8
+* Return value:      	OK or Error
+********************************************************************************/
+u8 STK_u8SetmSBusyWait(u32 Copy_u32msTime);
 
 /*******************************************************************************
 * Function Name:		STK_u8SetIntervalSingle

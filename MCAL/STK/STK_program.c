@@ -57,16 +57,26 @@ u8 STK_u8Init(u8 Copy_u8ClockSource)
 /*******************************************************************************
 * Function Name:		STK_u8SetBusyWait
 ********************************************************************************/
-u8 STK_u8SetBusyWait(u32 Copy_u32NumOfTicks)
+u8 STK_u8SetuSBusyWait(u32 Copy_u32Time_us)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
+	u32 Local_u8LoadValue;
 
-	if(Copy_u32NumOfTicks <= 0x00FFFFFFFF)
+	if(GET_BIT(STK->CTRL,2)) /* The clock source is AHB/1 */
+	{
+		Local_u8LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
+	}
+	else /* The clock source is AHB/8 */
+	{
+		Local_u8LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
+	}
+
+	if(Local_u8LoadValue <= 0x00FFFFFFFF)
 	{
 		/* Close the exception request */
 		CLR_BIT(STK->CTRL,1);
 		/* Load the required delay */
-		STK->LOAD = Copy_u32NumOfTicks ;
+		STK->LOAD = Local_u8LoadValue ;
 		/* Enable the timer */
 		SET_BIT(STK->CTRL,0);
 		/* Start the change immediately by writing any value to VAL register */
@@ -87,18 +97,42 @@ u8 STK_u8SetBusyWait(u32 Copy_u32NumOfTicks)
 }
 
 /*******************************************************************************
-* Function Name:		STK_u8SetIntervalSingle
+* Function Name:		STK_u8SetmSBusyWait
 ********************************************************************************/
-u8 STK_u8SetIntervalSingle(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void))
+u8 STK_u8SetmSBusyWait(u32 Copy_u32Time_ms)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 
-	if((Copy_u32NumOfTicks <= 0x00FFFFFF) && (Copy_pf != NULL))
+	for(u8 i = 0 ; i < Copy_u32Time_ms ; i++)
+	{
+		STK_u8SetuSBusyWait(1000);
+	}
+
+	return Local_u8ErrorState;
+}
+
+/*******************************************************************************
+* Function Name:		STK_u8SetIntervalSingle
+********************************************************************************/
+u8 STK_u8SetIntervalSingle(u32 Copy_u32Time_us, void(*Copy_pf)(void))
+{
+	u8 Local_u8ErrorState = STD_TYPES_OK;
+	u32 Local_u8LoadValue;
+
+	if(GET_BIT(STK->CTRL,2)) /* The clock source is AHB/1 */
+	{
+		Local_u8LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
+	}
+	else /* The clock source is AHB/8 */
+	{
+		Local_u8LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
+	}
+	if((Local_u8LoadValue <= 0x00FFFFFF) && (Copy_pf != NULL))
 	{
 		/* Set Callback Function */
 		STK_Pf = Copy_pf;
 		/* Load the required delay */
-		STK->LOAD = Copy_u32NumOfTicks ;
+		STK->LOAD = Local_u8LoadValue ;
 		/* Enable the timer */
 		SET_BIT(STK->CTRL,0);
 		/* Set the mode = interval */
@@ -116,16 +150,25 @@ u8 STK_u8SetIntervalSingle(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void))
 /*******************************************************************************
 * Function Name:		STK_u8SetIntervalPeriodic
 ********************************************************************************/
-u8 STK_u8SetIntervalPeriodic(u32 Copy_u32NumOfTicks, void(*Copy_pf)(void))
+u8 STK_u8SetIntervalPeriodic(u32 Copy_u32Time_us, void(*Copy_pf)(void))
 {
 	u8 Local_u8ErrorState = STD_TYPES_NOK;
+	u32 Local_u8LoadValue;
 
-	if((Copy_u32NumOfTicks <= 0x00FFFFFF) && (Copy_pf != NULL))
+	if(GET_BIT(STK->CTRL,2)) /* The clock source is AHB/1 */
+	{
+		Local_u8LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
+	}
+	else /* The clock source is AHB/8 */
+	{
+		Local_u8LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
+	}
+	if((Local_u8LoadValue <= 0x00FFFFFF) && (Copy_pf != NULL))
 	{
 		/* Set Callback Function */
 		STK_Pf = Copy_pf;
 		/* Load the required delay */
-		STK->LOAD = Copy_u32NumOfTicks-1 ;
+		STK->LOAD = Local_u8LoadValue-1 ;
 		/* Enable the timer */
 		SET_BIT(STK->CTRL,0);
 		/* Set the mode = interval */
