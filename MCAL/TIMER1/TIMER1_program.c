@@ -84,6 +84,124 @@ u8 TIMER1_u8SetIntervalPeriodic(u16 Copy_u32NumOfTicks , u8 Copy_u8RepetitionNum
 }
 
 /*******************************************************************************
+* Function Name:		TIMER1_u8InitPwmChannel
+********************************************************************************/
+u8 TIMER1_u8InitPwmChannel(u8 Copy_u8PwmChannel)
+{
+	u8 Local_u8ErrorState = STD_TYPES_OK;
+
+	switch(Copy_u8PwmChannel)
+	{
+	case TIMER1_u8_PWM_CHANNEL1:
+		TIMER1->CCMR1 &= ~(0b11); /* Channel is output compare */
+		SET_BIT(TIMER1->CCMR1,3); /* Output compare preload enable */
+		TIMER1->CCMR1 |= (0b11 << 5); /* PWM mode 1 */
+		CLR_BIT(TIMER1->CCMR1,4); /* PWM mode 1 */
+		CLR_BIT(TIMER1->CCER,1); /* high output polarity */
+		SET_BIT(TIMER1->CCER,0); /* Output enable */
+		break;
+
+	case TIMER1_u8_PWM_CHANNEL2:
+		TIMER1->CCMR1 &= ~(0b11<<8);
+		SET_BIT(TIMER1->CCMR1,11);
+		TIMER1->CCMR1 |= (0b11 << 13);
+		CLR_BIT(TIMER1->CCMR1,12);
+		CLR_BIT(TIMER1->CCER,5);
+		SET_BIT(TIMER1->CCER,4);
+		break;
+
+	case TIMER1_u8_PWM_CHANNEL3:
+		TIMER1->CCMR2 &= ~(0b11);
+		SET_BIT(TIMER1->CCMR2,3);
+		TIMER1->CCMR2 |= (0b11 << 5);
+		CLR_BIT(TIMER1->CCMR2,4);
+		CLR_BIT(TIMER1->CCER,9);
+		SET_BIT(TIMER1->CCER,8);
+		break;
+
+	case TIMER1_u8_PWM_CHANNEL4:
+		TIMER1->CCMR2 &= ~(0b11<<8);
+		SET_BIT(TIMER1->CCMR2,11);
+		TIMER1->CCMR2 |= (0b11 << 13);
+		CLR_BIT(TIMER1->CCMR2,12);
+		CLR_BIT(TIMER1->CCER,13);
+		SET_BIT(TIMER1->CCER,12);
+		break;
+
+	default:
+		Local_u8ErrorState = STD_TYPES_NOK;
+		break;
+	}
+
+	return Local_u8ErrorState;
+}
+
+/*******************************************************************************
+* Function Name:		TIMER1_u8SetPWM
+********************************************************************************/
+u8 TIMER1_u8SetPWM(u8 Copy_u8PwmChannel , u8 Copy_u8PwmFrequency , u8 Copy_u8PwmDutyCycle)
+{
+	u8 Local_u8ErrorState = STD_TYPES_OK;
+	u16 Local_u16ReloadValue;
+	u16 Local_u16CompareValue;
+	if(Copy_u8PwmDutyCycle >= 0 && Copy_u8PwmDutyCycle <= 100)
+	{
+		switch(Copy_u8PwmChannel)
+		{
+		case TIMER1_u8_PWM_CHANNEL1:
+			Local_u16ReloadValue = ((F_CPU/(TIMER1->PSC+1))/Copy_u8PwmFrequency);
+			Local_u16CompareValue = ((Copy_u8PwmDutyCycle*Local_u16ReloadValue)/100) ;
+			TIMER1->ARR = Local_u16ReloadValue ; /* Setup Frequency */
+			TIMER1->CCR1 = Local_u16CompareValue; /* Setup Duty Cycle */
+
+			SET_BIT(TIMER1->BDTR,15); /* Enable MOE */
+			SET_BIT(TIMER1->CR1,0); /* Enable the timer */
+			break;
+
+		case TIMER1_u8_PWM_CHANNEL2:
+			Local_u16ReloadValue = ((F_CPU/(TIMER1->PSC+1))/Copy_u8PwmFrequency);
+			Local_u16CompareValue = ((Copy_u8PwmDutyCycle*Local_u16ReloadValue)/100) ;
+			TIMER1->ARR = Local_u16ReloadValue ; /* Setup Frequency */
+			TIMER1->CCR2 = Local_u16CompareValue; /* Setup Duty Cycle */
+
+			SET_BIT(TIMER1->BDTR,15); /* Enable MOE */
+			SET_BIT(TIMER1->CR1,0); /* Enable the timer */
+			break;
+
+		case TIMER1_u8_PWM_CHANNEL3:
+			Local_u16ReloadValue = ((F_CPU/(TIMER1->PSC+1))/Copy_u8PwmFrequency);
+			Local_u16CompareValue = ((Copy_u8PwmDutyCycle*Local_u16ReloadValue)/100) ;
+			TIMER1->ARR = Local_u16ReloadValue ; /* Setup Frequency */
+			TIMER1->CCR3 = Local_u16CompareValue; /* Setup Duty Cycle */
+
+			SET_BIT(TIMER1->BDTR,15); /* Enable MOE */
+			SET_BIT(TIMER1->CR1,0); /* Enable the timer */
+			break;
+
+		case TIMER1_u8_PWM_CHANNEL4:
+			Local_u16ReloadValue = ((F_CPU/(TIMER1->PSC+1))/Copy_u8PwmFrequency);
+			Local_u16CompareValue = ((Copy_u8PwmDutyCycle*Local_u16ReloadValue)/100) ;
+			TIMER1->ARR = Local_u16ReloadValue ; /* Setup Frequency */
+			TIMER1->CCR4 = Local_u16CompareValue; /* Setup Duty Cycle */
+
+			SET_BIT(TIMER1->BDTR,15); /* Enable MOE */
+			SET_BIT(TIMER1->CR1,0); /* Enable the timer */
+			break;
+		default:
+			Local_u8ErrorState = STD_TYPES_NOK;
+			break;
+		}
+
+	}
+	else
+	{
+		Local_u8ErrorState = STD_TYPES_NOK;
+	}
+
+	return Local_u8ErrorState;
+}
+
+/*******************************************************************************
 * Function Name:		TIMER1_u8Stop
 ********************************************************************************/
 u8 TIMER1_u8Stop(void)
