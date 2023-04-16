@@ -15,5 +15,6 @@ typedef long double        f128;
 #define STD_TYPES_NOK           0
 
 #define NULL                   ((void*)0)
+#define F_CPU				8000000 /* 8Mhz */
 
 #endif
