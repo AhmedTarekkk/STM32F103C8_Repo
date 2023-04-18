@@ -60,23 +60,23 @@ u8 STK_u8Init(u8 Copy_u8ClockSource)
 u8 STK_u8SetuSBusyWait(u32 Copy_u32Time_us)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
-	u32 Local_u8LoadValue;
+	u32 Local_u32LoadValue;
 
 	if(GET_BIT(STK->CTRL,2)) /* The clock source is AHB/1 */
 	{
-		Local_u8LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
+		Local_u32LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
 	}
 	else /* The clock source is AHB/8 */
 	{
-		Local_u8LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
+		Local_u32LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
 	}
 
-	if(Local_u8LoadValue <= 0x00FFFFFFFF)
+	if(Local_u32LoadValue <= 0x00FFFFFFFF)
 	{
 		/* Close the exception request */
 		CLR_BIT(STK->CTRL,1);
 		/* Load the required delay */
-		STK->LOAD = Local_u8LoadValue ;
+		STK->LOAD = Local_u32LoadValue ;
 		/* Enable the timer */
 		SET_BIT(STK->CTRL,0);
 		/* Start the change immediately by writing any value to VAL register */
@@ -103,7 +103,7 @@ u8 STK_u8SetmSBusyWait(u32 Copy_u32Time_ms)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 
-	for(u8 i = 0 ; i < Copy_u32Time_ms ; i++)
+	for(u32 i = 0 ; i < Copy_u32Time_ms ; i++)
 	{
 		STK_u8SetuSBusyWait(1000);
 	}
@@ -117,22 +117,22 @@ u8 STK_u8SetmSBusyWait(u32 Copy_u32Time_ms)
 u8 STK_u8SetIntervalSingle(u32 Copy_u32Time_us, void(*Copy_pf)(void))
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
-	u32 Local_u8LoadValue;
+	u32 Local_u32LoadValue;
 
 	if(GET_BIT(STK->CTRL,2)) /* The clock source is AHB/1 */
 	{
-		Local_u8LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
+		Local_u32LoadValue = (F_CPU/1000000)*Copy_u32Time_us ;
 	}
 	else /* The clock source is AHB/8 */
 	{
-		Local_u8LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
+		Local_u32LoadValue = (F_CPU/8000000)*Copy_u32Time_us ;
 	}
-	if((Local_u8LoadValue <= 0x00FFFFFF) && (Copy_pf != NULL))
+	if((Local_u32LoadValue <= 0x00FFFFFF) && (Copy_pf != NULL))
 	{
 		/* Set Callback Function */
 		STK_Pf = Copy_pf;
 		/* Load the required delay */
-		STK->LOAD = Local_u8LoadValue ;
+		STK->LOAD = Local_u32LoadValue ;
 		/* Enable the timer */
 		SET_BIT(STK->CTRL,0);
 		/* Set the mode = interval */
