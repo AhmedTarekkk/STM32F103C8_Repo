@@ -13,7 +13,7 @@
 #include "ESP_config.h"
 #include "UART_interface.h"
 #include "STK_interface.h"
-//#include "LCD_interface.h"
+#include "LCD_interface.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -40,7 +40,7 @@ static u8 PushPointer = 0;
 * Return value:      	void
 ********************************************************************************/
 
-static void ESP8266_sendATCommand(char* AT_Command); /* can be used in this file only */
+static ESP_Response ESP8266_sendATCommand(char* AT_Command); /* can be used in this file only */
 
 /*******************************************************************************
 *                      Functions Definitions                                   *
@@ -51,7 +51,7 @@ static void ESP8266_sendATCommand(char* AT_Command); /* can be used in this file
 ********************************************************************************/
 void ESP8266_ISRreceive(void)
 {
-	temp[counter] = UART_Astr[ESP_u8_UART]->DR;
+	temp[counter] = ESP_UART_DATA;
 	CLR_BIT(UART2->SR,5); /* Clear the flag */
 	counter++;
 	if(counter == 100){
@@ -74,11 +74,12 @@ ESP_Response ESP8266_waitExpectedResponse(char * Expected_Response,u16 MaxTimeou
 	while((strncmp((char*)temp,Expected_Response,ResponseLength) != 0) && (time < MaxTimeout))
 	{
 		time++;
-		STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 	}
 	__asm volatile("CPSID I");
 
-	if((strncmp((char*)temp,"ALREADY",7) == 0)) /* check if we sent command that already applied to ESP */
+	if((strncmp((char*)temp,"ALREADY",7) == 0) || (strncmp((char*)temp,"link",4) == 0) \
+			|| (strncmp((char*)temp,"CLOSED",6) == 0) || (strncmp((char*)temp,"AT",2) == 0)) /* check if we sent command that already applied to ESP */
 	{
 		time = 0;
 	}
@@ -103,73 +104,79 @@ void ESP8266_resetBuffer()
 /*******************************************************************************
 * Function Name:		ESP8266_sendATCommand
 ********************************************************************************/
-void ESP8266_sendATCommand(char* AT_Command)
+ESP_Response ESP8266_sendATCommand(char* AT_Command)
 {
 		char Expected_Response[60] = "\r\nOK\r\n";
 		u16 timeout = 2000; /* 2 seconds timeout */
-		if(strcmp(AT_Command,"ATE0\r\n") == 0) /* printing on the //LCD the command purpose */
+		if(strcmp(AT_Command,"ATE0\r\n") == 0) /* printing on the LCD the command purpose */
 		{
-			//LCD_displayString("Disabling Echo");
-			strcpy(Expected_Response,"ATE0\r\r\n\r\nOK\r\n");
+			LCD_displayString("Disabling Echo");
+			strcpy(Expected_Response,"\rATE0\r\r\n\r\nOK\r\n");
 		}
 		else if(strcmp(AT_Command,"AT+CWMODE=3\r\n") == 0)
 		{
-			//LCD_displayString("ESP Station Mode");
+			LCD_displayString("ESP Station Mode");
 		}
 		else if(strcmp(AT_Command,"AT+CIPMUX=0\r\n") == 0)
 		{
-			//LCD_displayString("Single Channel");
+			LCD_displayString("Single Channel");
 		}
 		else if(strcmp(AT_Command,"AT+CIPMODE=0\r\n") == 0)
 		{
-			//LCD_displayString("Normal Mode");
+			LCD_displayString("Normal Mode");
 		}
-		else if(strcmp(AT_Command,"AT\r\n") == 0 || strcmp(AT_Command,"AAT\r\n") == 0)
+		else if(strcmp(AT_Command,"AT\r\n") == 0)
 		{
-			//LCD_displayString("AT");
+			LCD_displayString("AT");
 		}
 		else if(strncmp(AT_Command,"AT+CWJAP",8) == 0)
 		{
-			//LCD_displayString("Connect to Wi-Fi");
+			LCD_displayString("Connect to Wi-Fi");
 			timeout = 10000; /* 10 seconds timeout */
 			strcpy(Expected_Response,"WIFI DISCONNECT\r\nWIFI CONNECTED\r\nWIFI GOT IP\r\n\r\nOK\r\n");
 		}
 		else if(strncmp(AT_Command,"AT+CIPSTART",11) == 0)
 		{
-			//LCD_displayString("Connect to Server");
+			LCD_displayString("Connect to Server");
 			strcpy(Expected_Response,"CONNECT\r\n\r\nOK\r\n");
 		}
 		else if(strncmp(AT_Command,"AT+CIPCLOSE",11) == 0)
 		{
-			//LCD_displayString("Complete Sending");
+			LCD_displayString("Complete Sending");
 			strcpy(Expected_Response,"CLOSED\r\n\r\nOK\r\n");
 		}
 		else if(strncmp(AT_Command,"AT+CIPSEND",10) == 0)
 		{
-			//LCD_displayString("Sending Data");
+			LCD_displayString("Sending Data");
+		}
+		else if(strncmp(AT_Command,"AT+CIPSTATUS",12) == 0)
+		{
+			LCD_displayString("Check Connection");
+			strcpy(Expected_Response,"STATUS:3");
 		}
 		else
 		{
-			//LCD_displayString("Unknown Command");
+			LCD_displayString("Unknown Command");
 		}
-		//LCD_moveCursor(1, 0);
+		LCD_moveCursor(1, 0);
 		ESP8266_resetBuffer();
 		__asm("CPSIE i");
 		UART_u8SendString(ESP_u8_UART, (u8*)AT_Command);
 		u8 State = ESP8266_waitExpectedResponse(Expected_Response, timeout); /* wait to get the expected response */
 		if(State == ESP_ok)
 		{
-			//LCD_displayString("OK");
-			STK_u8SetBusyWait(1000000);
-			//LCD_clearScreen();
+			LCD_displayString("OK");
+			STK_u8SetmSBusyWait(1000);
+			LCD_clearScreen();
 		}
 		else
 		{
-			//LCD_displayString("ERROR");
-			STK_u8SetBusyWait(1000000);
-			//LCD_clearScreen();
+			LCD_displayString("ERROR");
+			STK_u8SetmSBusyWait(1000);
+			LCD_clearScreen();
+			return ESP_error;
 		}
-
+		return ESP_ok;
 }
 
 /*******************************************************************************
@@ -177,8 +184,8 @@ void ESP8266_sendATCommand(char* AT_Command)
 ********************************************************************************/
 void ESP8266_init(char ordersBuffer[][BUFFER_SIZE])
 {
-	//LCD_clearScreen();
-
+	STK_u8SetmSBusyWait(5000);
+	LCD_clearScreen();
 	P_Orders = ordersBuffer;
 
 	u8 OldPrimask = 0;
@@ -189,8 +196,7 @@ void ESP8266_init(char ordersBuffer[][BUFFER_SIZE])
 
 	char AT_Command[20] = {0};
 
-	strcpy(AT_Command,"AAT\r\n");
-	ESP8266_sendATCommand(AT_Command);
+	UART_u8SendByte(ESP_u8_UART, '\r');
 
 	strcpy(AT_Command,"ATE0\r\n"); /* command to disable the echo */
 	ESP8266_sendATCommand(AT_Command);
@@ -205,7 +211,7 @@ void ESP8266_init(char ordersBuffer[][BUFFER_SIZE])
 	ESP8266_sendATCommand(AT_Command);
 
 	__asm volatile ("MSR PRIMASK,%0" : :"r"(OldPrimask)); /* Return the Primask to it's last value */
-	//LCD_clearScreen();
+	LCD_clearScreen();
 }
 
 /*******************************************************************************
@@ -213,7 +219,7 @@ void ESP8266_init(char ordersBuffer[][BUFFER_SIZE])
 ********************************************************************************/
 ESP_Response ESP8266_ping(void)
 {
-	//LCD_clearScreen();
+	LCD_clearScreen();
 
 	u8 OldPrimask = 0;
 	__asm volatile ("MRS %0, PRIMASK " : "=r"(OldPrimask) : ); /* Save the primask register */
@@ -248,7 +254,7 @@ void ESP8266_connectWifiAndServer(const char *SSID, const char *Pass,const char 
 
 	__asm volatile ("MSR PRIMASK,%0" : :"r"(OldPrimask)); /* Return the Primask to it's last value */
 
-	//LCD_clearScreen();
+	LCD_clearScreen();
 }
 
 /*******************************************************************************
@@ -256,13 +262,22 @@ void ESP8266_connectWifiAndServer(const char *SSID, const char *Pass,const char 
 ********************************************************************************/
 void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 {
-	//LCD_clearScreen();
+	LCD_clearScreen();
 
 	u8 OldPrimask = 0;
 	__asm volatile ("MRS %0, PRIMASK " : "=r"(OldPrimask) : ); /* Save the primask register */
 
 	char AT_Command[60] = {0};
 	u8 length = strlen(ESP_Data);
+
+	/* Command to check the ESP connection */
+	strcpy(AT_Command,"AT+CIPSTATUS");
+	if(ESP8266_sendATCommand(AT_Command) != ESP_ok)
+	{
+		/* Connecting to the server again so we can use it later */
+		sprintf((char*) AT_Command, (char*) "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n", IP, Port);
+		ESP8266_sendATCommand(AT_Command);
+	}
 
 	/* Command to send data server with defined length */
 	sprintf((char*) AT_Command, (char*) "AT+CIPSEND=%d\r\n", length+2);
@@ -273,7 +288,7 @@ void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 	UART_u8SendByte(ESP_u8_UART, length); /* The second byte is the length of the data */
 	UART_u8SendString(ESP_u8_UART, (u8 *)ESP_Data);  /* Sending the actual data */
 	__asm("CPSIE i");
-	 STK_u8SetBusyWait(3000000);
+	STK_u8SetmSBusyWait(3);
 	__asm("CPSID i");
 	ESP8266_resetBuffer();
 
@@ -281,13 +296,9 @@ void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 	strcpy(AT_Command,"AT+CIPCLOSE\r\n");
 	ESP8266_sendATCommand(AT_Command);
 
-	/* Connecting to the server again so we can use it later */
-	sprintf((char*) AT_Command, (char*) "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n", IP, Port);
-	ESP8266_sendATCommand(AT_Command);
-
 	__asm volatile ("MSR PRIMASK,%0" : :"r"(OldPrimask)); /* Return the Primask to it's last value */
 
-	//LCD_clearScreen();
+	LCD_clearScreen();
 }
 
 /*******************************************************************************

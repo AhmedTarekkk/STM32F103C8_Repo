@@ -139,7 +139,7 @@ u8 TIMER1_u8InitPwmChannel(u8 Copy_u8PwmChannel)
 /*******************************************************************************
 * Function Name:		TIMER1_u8SetPWM
 ********************************************************************************/
-u8 TIMER1_u8SetPWM(u8 Copy_u8PwmChannel , u8 Copy_u8PwmFrequency , u8 Copy_u8PwmDutyCycle)
+u8 TIMER1_u8SetPWM(u8 Copy_u8PwmChannel , u8 Copy_u8PwmFrequency , f32 Copy_u8PwmDutyCycle)
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 	u16 Local_u16ReloadValue;

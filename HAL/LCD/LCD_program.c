@@ -31,7 +31,7 @@ void LCD_init(void)
 	GPIO_u8SetPinMode(LCD_u8_RS_PORT_ID, LCD_u8_RS_PIN_ID, GPIO_u8_OUTPUT_GP_PP_2MHZ);
 	GPIO_u8SetPinMode(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_OUTPUT_GP_PP_2MHZ);
 
-	STK_u8SetBusyWait(20000); /* Delay For 20 ms */
+	STK_u8SetmSBusyWait(20); /* Delay For 20 ms */
 
 #if(LCD_u8_DATA_BITS_MODE == 8)
 	u8 i ;
@@ -58,7 +58,7 @@ void LCD_init(void)
 	LCD_sendCommand(LCD_CURSOR_OFF); /* cursor off */
 	LCD_sendCommand(LCD_CLEAR_COMMAND); /* clear LCD at the beginning */
 
-	STK_u8SetBusyWait(10000);
+	STK_u8SetmSBusyWait(10);
 }
 
 /*******************************************************************************
@@ -68,10 +68,10 @@ void LCD_init(void)
 void LCD_sendCommand(u8 command)
 {
 	GPIO_u8WritePinValue(LCD_u8_RS_PORT_ID, LCD_u8_RS_PIN_ID, GPIO_u8_LOW);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_HIGH);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #if(LCD_u8_DATA_BITS_MODE == 8)
 
@@ -79,9 +79,9 @@ void LCD_sendCommand(u8 command)
 	{
 		GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_PORT_START_PIN, GET_BIT(command,i));
 	}
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW); /* Enable = 1 */
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #elif(LCD_u8_DATA_BITS_MODE == 4)
 
@@ -89,22 +89,22 @@ void LCD_sendCommand(u8 command)
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB5_PIN_ID, GET_BIT(command,5));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB6_PIN_ID, GET_BIT(command,6));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB7_PIN_ID, GET_BIT(command,7));
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_HIGH);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB4_PIN_ID, GET_BIT(command,0));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB5_PIN_ID, GET_BIT(command,1));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB6_PIN_ID, GET_BIT(command,2));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB7_PIN_ID, GET_BIT(command,3));
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #endif
 }
@@ -116,9 +116,9 @@ void LCD_sendCommand(u8 command)
 void LCD_displayCharacter(u8 data)
 {
 	GPIO_u8WritePinValue(LCD_u8_RS_PORT_ID, LCD_u8_RS_PIN_ID, GPIO_u8_HIGH); /* Rs = 0 */
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_HIGH); /* Enable = 1 */
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #if(LCD_u8_DATA_BITS_MODE == 8)
 
@@ -126,9 +126,9 @@ void LCD_displayCharacter(u8 data)
 	{
 		GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_PORT_START_PIN, GET_BIT(data,i));
 	}
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW); /* Enable = 1 */
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #elif(LCD_u8_DATA_BITS_MODE == 4)
 
@@ -136,22 +136,22 @@ void LCD_displayCharacter(u8 data)
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB5_PIN_ID, GET_BIT(data,5));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB6_PIN_ID, GET_BIT(data,6));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB7_PIN_ID, GET_BIT(data,7));
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_HIGH);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB4_PIN_ID, GET_BIT(data,0));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB5_PIN_ID, GET_BIT(data,1));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB6_PIN_ID, GET_BIT(data,2));
 	GPIO_u8WritePinValue(LCD_u8_DATA_PORT_ID, LCD_u8_DB7_PIN_ID, GET_BIT(data,3));
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 	GPIO_u8WritePinValue(LCD_u8_E_PORT_ID, LCD_u8_E_PIN_ID, GPIO_u8_LOW);
-	STK_u8SetBusyWait(1000);
+	STK_u8SetmSBusyWait(1);
 
 #endif
 }

@@ -24,7 +24,7 @@ static u8 Global_UARTEND_STRING[3] = {'#','#','#'};
 typedef void(*fptr_t)(void);
 static fptr_t Global_pfArr[3] = {NULL,NULL,NULL};
 
-static UART_RegDef_t * UART_Astr[3] = {UART1,UART2,UART3};
+UART_RegDef_t * UART_Astr[3] = {UART1,UART2,UART3};
 
 /*******************************************************************************
 *                      Functions Definitions                                   *

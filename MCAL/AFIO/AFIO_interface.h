@@ -65,18 +65,27 @@
 *******************************************************************************/
 
 /*******************************************************************************
-* Function Name:		EXTI_u8SetInterruptStatus
-* Description:			Function to enable or disable the required EXTI mask
+* Function Name:		AFIO_u8SetEXTIPortSource
+* Description:			Function to set the port source of EXTIx
 * Parameters (in):    	The EXTI number
-* 						EXTI state : Masked or Not Masked
+* 						The required Port
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
 u8 AFIO_u8SetEXTIPortSource(u8 Copy_u8EXTINumber , u8 Copy_u8PortNumber);
 
 /*******************************************************************************
+* Function Name:		AFIO_u8DisableJTAG
+* Description:			Function to disable JTAG
+* Parameters (in):    	void
+* Parameters (out):   	u8
+* Return value:      	OK or Error
+********************************************************************************/
+u8 AFIO_u8DisableJTAG(void);
+
+/*******************************************************************************
 * Function Name:		AFIO_u8SetUARTConfiguration
-* Description:			Function to enable or disable the required EXTI mask
+* Description:			Function to remap the UART pins
 * Parameters (in):    	The UART number
 * 						Re-map we want
 * Parameters (out):   	u8

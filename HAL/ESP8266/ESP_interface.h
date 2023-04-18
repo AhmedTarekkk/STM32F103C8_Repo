@@ -73,7 +73,7 @@ void ESP8266_init(char ordersBuffer[][BUFFER_SIZE]);
 * Function Name:		ESP8266_ping
 * Description:			Send "AT" command to the ESP to know if it is working
 * Parameters (in):    	None
-* Parameters (out):   	OK or ERROR
+* Parameters (out):   	Ok or Error
 * Return value:      	ESP_Response
 ********************************************************************************/
 

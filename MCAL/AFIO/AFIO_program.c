@@ -38,6 +38,20 @@ u8 AFIO_u8SetEXTIPortSource(u8 Copy_u8EXTINumber , u8 Copy_u8PortNumber)
 }
 
 /*******************************************************************************
+* Function Name:		AFIO_u8DisableJTAG
+********************************************************************************/
+u8 AFIO_u8DisableJTAG(void)
+{
+	u8 LocalErrorState = STD_TYPES_OK;
+
+	CLR_BIT(AFIO->MAPR,26);
+	SET_BIT(AFIO->MAPR,25);
+	CLR_BIT(AFIO->MAPR,24);
+
+	return LocalErrorState;
+}
+
+/*******************************************************************************
 * Function Name:		AFIO_u8SetUARTConfiguration
 ********************************************************************************/
 u8 AFIO_u8SetUARTConfiguration(u8 Copy_u8UARTNumber , u8 Copy_u8RemapValue)

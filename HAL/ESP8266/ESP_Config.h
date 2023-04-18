@@ -10,5 +10,6 @@
 #define BUFFER_SIZE					20
 #define MAX_ORDERS					10
 #define ESP_u8_UART					UART_u8_2
+#define ESP_UART_DATA				UART2->DR
 
 #endif /* ESP_CONFIG_H_ */

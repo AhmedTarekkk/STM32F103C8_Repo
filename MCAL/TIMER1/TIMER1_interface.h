@@ -14,8 +14,7 @@
 /*******************************************************************************
 *                 	     		Advanced Timers                               *
 *******************************************************************************/
-#define TIMER1_u8_1							0
-#define TIMER1_u8_8							1
+#define TIMER_u8_1								1
 
 /*******************************************************************************
 *                 	     		Counting Direction	                           *
@@ -78,7 +77,7 @@ u8 TIMER1_u8InitPwmChannel(u8 Copy_u8PwmChannel);
 * Parameters (out):   	u8
 * Return value:      	OK or Error
 ********************************************************************************/
-u8 TIMER1_u8SetPWM(u8 Copy_u8PwmChannel , u8 Copy_u8PwmFrequency , u8 Copy_u8PwmDutyCycle);
+u8 TIMER1_u8SetPWM(u8 Copy_u8PwmChannel , u8 Copy_u8PwmFrequency , f32 Copy_u8PwmDutyCycle);
 
 /*******************************************************************************
 * Function Name:		TIMER1_u8Stop
