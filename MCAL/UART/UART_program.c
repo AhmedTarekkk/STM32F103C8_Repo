@@ -87,10 +87,10 @@ u8 UART_u8SendByte(u8 Copy_u8UartNumber, u8 Copy_u8DataByte)
 {
 	u8 Local_ErrorState = STD_TYPES_OK;
 
+	CLR_BIT(UART_Astr[Copy_u8UartNumber]->SR,6);
 	UART_Astr[Copy_u8UartNumber]->DR = Copy_u8DataByte; /* The flag is cleared when we write to the data register */
 	while(GET_BIT(UART_Astr[Copy_u8UartNumber]->SR,6) == 0); /* Wait if the previous Transmission isn't completed */
-	CLR_BIT(UART_Astr[Copy_u8UartNumber]->SR,6);
-
+	
 	return Local_ErrorState;
 }
 /*******************************************************************************

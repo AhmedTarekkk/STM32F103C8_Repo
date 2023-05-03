@@ -129,7 +129,7 @@ u8 EXTI_u8ClearInterruptPending(u8 Copy_u8EXTINumber)
 	if(Copy_u8EXTINumber <= 15)
 	{
 		LocalErrorState = STD_TYPES_OK;
-		SET_BIT(EXTI->PR,Copy_u8EXTINumber);
+		EXTI->PR = (1 << Copy_u8EXTINumber);
 	}
 	else
 	{
@@ -161,10 +161,6 @@ u8 EXTI_u8IsInterruptِActive(u8 Copy_u8EXTINumber ,u8* Copy_pu8EXTIStatus )
 
 /*******************************************************************************
 * Function Name:		EXTI_u8GenerateSWInerrupt
-* Description:			Function to generate interrupt with specific number with SW
-* Parameters (in):    	void
-* Parameters (out):   	u8
-* Return value:      	OK or Error
 ********************************************************************************/
 u8 EXTI_u8GenerateSWInerrupt(u8 Copy_u8EXTINumber)
 {
@@ -208,7 +204,7 @@ u8 EXTI_u8SetCallBack(u8 Copy_u8EXTINumber , void(*Copy_pfCallback)(void))
 *******************************************************************************/
 void EXTI0_IRQHandler(void)
 {
-	SET_BIT(EXTI->PR,0);
+	EXTI->PR = (1 << 0);
 	if(Global_pfArray[0] != NULL )
 	{
 		Global_pfArray[0]();
@@ -217,7 +213,7 @@ void EXTI0_IRQHandler(void)
 
 void EXTI1_IRQHandler(void)
 {
-	SET_BIT(EXTI->PR,1);
+	EXTI->PR = (1 << 1);
 	if(Global_pfArray[1] != NULL )
 	{
 		Global_pfArray[1]();
@@ -226,7 +222,7 @@ void EXTI1_IRQHandler(void)
 
 void EXTI2_IRQHandler(void)
 {
-	SET_BIT(EXTI->PR,2);
+	EXTI->PR = (1 << 2);
 	if(Global_pfArray[2] != NULL )
 	{
 		Global_pfArray[2]();
@@ -235,7 +231,7 @@ void EXTI2_IRQHandler(void)
 
 void EXTI3_IRQHandler(void)
 {
-	SET_BIT(EXTI->PR,3);
+	EXTI->PR = (1 << 3);
 	if(Global_pfArray[3] != NULL )
 	{
 		Global_pfArray[3]();
@@ -244,7 +240,7 @@ void EXTI3_IRQHandler(void)
 
 void EXTI4_IRQHandler(void)
 {
-	SET_BIT(EXTI->PR,4);
+	EXTI->PR = (1 << 4);
 	if(Global_pfArray[4] != NULL )
 	{
 		Global_pfArray[4]();
@@ -257,12 +253,12 @@ void EXTI9_5_IRQHandler(void)
 	{
 		if(GET_BIT(EXTI->PR,i) == 1 && GET_BIT(EXTI->IMR,i) == 1)
 		{
-			SET_BIT(EXTI->PR,i);
+			EXTI->PR = (1 << i);
 			if(Global_pfArray[i] != NULL )
 			{
 				Global_pfArray[i]();
-				return;
 			}
+			return;
 		}
 	}
 }
@@ -282,3 +278,4 @@ void EXTI15_10_IRQHandler(void)
 		}
 	}
 }
+

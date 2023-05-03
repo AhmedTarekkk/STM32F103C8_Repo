@@ -8,9 +8,16 @@ Analyze = arm-none-eabi-objdump -h
 
 MACH = cortex-m3
 
-CFLAGS = -c -mcpu=$(MACH) -mthumb
+CFLAGS = -c -mcpu=$(MACH) -mthumb --debug
 
 LDFLAGS = -nostdlib -T stm32f103_LinkerScript.ld -Wl,-Map=final.map
+
+CONV = arm-none-eabi-objcopy -O
+HEX = ihex
+BIN = binary
+
+#To print the symbol table use
+#arm-none-eabi-objdump -t file.o
 
 main.o:main.c
 	$(CC) $(CFLAGS) $^ -o $@
@@ -45,28 +52,34 @@ GPIO_log.s:GPIO_program.o
 stm32f103_startup.s:stm32f103_startup.o
 	$(ASM) $< > $@
 
-all_s : *.o
-	$(ASM) $^ > $@
+final.lss : all_o
+	$(ASM) *.o > $@
 
 stm32f103_analyze.s:stm32f103_startup.o
 	$(Analyze) $< > $@
 
-analyze.s:*.o
-	$(Analyze) $^ > $@
+analyze.s: all_o
+	$(Analyze) *.o > $@
 		
 
 symbol.txt:final.elf
 	arm-none-eabi-nm $^ > $@
 
 clean:
-	rm -rf *.o *.elf *.s *.map *.txt
+	rm -rf *.o *.elf *.s *.map *.txt *.lss *.bin *.hex
 
 final.elf : all_o
-	$(CC) $(LDFLAGS) main.o GPIO_program.o RCC_program.o STK_program.o stm32f103_startup.o -o $@
-	
-allv2:main.o GPIO_program.o RCC_program.o STK_program.o stm32f103_startup.o final.elf
+	$(CC) $(LDFLAGS) *.o -o $@
 
-all:all_o final.elf analyze.s
+final.hex : final.elf
+	$(CONV) $(HEX) $^ $@
+	
+final.bin : final.elf
+	$(CONV) $(BIN) $^ $@
+	
+allv2:main.o GPIO_program.o RCC_program.o STK_program.o stm32f103_startup.o final.elf 
+
+all: final.hex analyze.s final.lss symbol.txt
 
 gdb:
 	arm-none-eabi-gdb
