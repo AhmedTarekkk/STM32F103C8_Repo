@@ -88,6 +88,10 @@ typedef struct
 #define DMA_u8_UART2_RX_CH6						(u32)(&(UART2->DR))
 #define DMA_u8_UART3_TX_CH2						(u32)(&(UART3->DR))
 #define DMA_u8_UART3_RX_CH3						(u32)(&(UART3->DR))
+#define DMA_u8_SPI1_TX_CH3						(u32)(&(SPI1->DR))
+#define DMA_u8_SPI1_RX_CH2						(u32)(&(SPI1->DR))
+#define DMA_u8_SPI2_TX_CH5						(u32)(&(SPI2->DR))
+#define DMA_u8_SPI2_RX_CH4						(u32)(&(SPI2->DR))
 /* Update the rest of the peripherals data address when you need them */
 
 /*******************************************************************************
