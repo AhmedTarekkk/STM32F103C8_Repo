@@ -206,6 +206,29 @@ typedef struct
 #define UART3						((UART_RegDef_t*)UART3_u32_BASE_ADDRESS)
 
 /*******************************************************************************
+*                      			SPI	                    		          *
+*******************************************************************************/
+
+#define SPI1_u32_BASE_ADDRESS						0x40013000U
+#define SPI2_u32_BASE_ADDRESS						0x40003800U
+
+typedef struct
+{
+	volatile u32 CR1;
+	volatile u32 CR2;
+	volatile u32 SR;
+	volatile u32 DR;
+	volatile u32 CRCPR;
+	volatile u32 RXCRCR;
+	volatile u32 TXCRCR;
+	volatile u32 I2SCFGR;
+	volatile u32 I2SPR;
+}SPI_RegDef_t;
+
+#define SPI1						((SPI_RegDef_t*)SPI1_u32_BASE_ADDRESS)
+#define SPI2						((SPI_RegDef_t*)SPI2_u32_BASE_ADDRESS)
+
+/*******************************************************************************
 *                      			TIMER1	                    		          *
 *******************************************************************************/
 
@@ -236,5 +259,41 @@ typedef struct
 }TIMER1_RegDef_t;
 
 #define TIMER1				((TIMER1_RegDef_t *)TIMER1_u32_BASE_ADDRESS)
+
+/*******************************************************************************
+*                      				GPT	                      		           *
+*******************************************************************************/
+
+#define TIMER2_u32_BASE_ADDRESS						0x40000000U
+#define TIMER3_u32_BASE_ADDRESS						0x40000400U
+#define TIMER4_u32_BASE_ADDRESS						0x40000800U
+
+typedef struct
+{
+	volatile u32 CR1;
+	volatile u32 CR2;
+	volatile u32 SMCR;
+	volatile u32 DIER;
+	volatile u32 SR;
+	volatile u32 EGR;
+	volatile u32 CCMR1;
+	volatile u32 CCMR2;
+	volatile u32 CCER;
+	volatile u32 CNT;
+	volatile u32 PSC;
+	volatile u32 ARR;
+	volatile u32 :32;
+	volatile u32 CCR1;
+	volatile u32 CCR2;
+	volatile u32 CCR3;
+	volatile u32 CCR4;
+	volatile u32 :32;
+	volatile u32 DCR;
+	volatile u32 DMAR;
+}GPT_RegDef_t;
+
+#define TIMER2				((GPT_RegDef_t *)TIMER2_u32_BASE_ADDRESS)
+#define TIMER3				((GPT_RegDef_t *)TIMER3_u32_BASE_ADDRESS)
+#define TIMER4				((GPT_RegDef_t *)TIMER4_u32_BASE_ADDRESS)
 
 #endif
