@@ -87,8 +87,8 @@ typedef struct
 /*******************************************************************************
 *                       	   	SLAVE SELECT		          	        	   *
 *******************************************************************************/
-#define SPI_u8_SLAVE_DESELECT				0
-#define SPI_u8_SLAVE_SELECT					1
+#define SPI_u8_SLAVE_SELECT				0
+#define SPI_u8_SLAVE_DESELECT					1
 
 /*******************************************************************************
 *                       	   	RECEIVE METHOD		          	        	   *
