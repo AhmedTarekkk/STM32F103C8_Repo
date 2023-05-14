@@ -10,6 +10,7 @@ typedef signed long int    s32;
 typedef float              f32;
 typedef double             f64;
 typedef long double        f128;
+typedef void(*fptr_t)(void);
 
 #define STD_TYPES_OK            1
 #define STD_TYPES_NOK           0
