@@ -4,6 +4,11 @@
 *  Author:			Ahmed Tarek
 *  Version:         1.0
 *******************************************************************************/
+
+/*******************************************************************************
+*                        		Inclusions                                     *
+*******************************************************************************/
+
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "stm32f103xx.h"
@@ -17,48 +22,34 @@
 #include <string.h>
 #include <stdio.h>
 
-
 /*******************************************************************************
 *                           Global Variables                                  *
 *******************************************************************************/
-
-u8 temp[100] = { 0 }; /* buffer to store messages from ESP */
-static u8 counter = 0 ; /* counter to indicate the received chat location */
-char (*P_Orders)[20] = NULL ; /* global variable to store the pointer to the receiver buffer of the main */
-extern u8 OrdersWaiting;
-static u8 PushPointer = 0;
-
-/*******************************************************************************
-*                           Private Function                                  *
-*******************************************************************************/
-
-/*******************************************************************************
-* Function Name:		ESP8266_sendATCommand
-* Description:			Functional to send AT commands to the ESP
-* Parameters (in):    	None
-* Parameters (out):   	None
-* Return value:      	void
-********************************************************************************/
-
-static ESP_Response ESP8266_sendATCommand(char* AT_Command); /* can be used in this file only */
+volatile u8 ESPOrdersWaiting = 0;
 
 /*******************************************************************************
 *                      Functions Definitions                                   *
 *******************************************************************************/
 
 /*******************************************************************************
-* Function Name:		ESP8266_receive
+* Function Name:		ESP8266_ISRreceive
 ********************************************************************************/
 void ESP8266_ISRreceive(void)
 {
 	temp[counter] = ESP_UART_DATA;
 	CLR_BIT(UART2->SR,5); /* Clear the flag */
+	static u8 Command_Flag = 0;
 	counter++;
-	if(counter == 100){
+	if(counter == UART_RX_BUFFER_SIZE){
 		counter = 0; //pointer = 0;
 	}
-	if((strncmp((char*)temp,"\r\n+IPD",6) == 0) && temp[counter-1]=='\n')
+	if(strncmp((char*)(temp+counter-4),"+IPD",4) == 0)
 	{
+		Command_Flag = 1;
+	}
+	if(counter >= 4 && Command_Flag && ( temp[counter-1]=='\n' ))
+	{
+		Command_Flag = 0;
 		ESP8266_responseToServer();
 	}
 }
@@ -113,7 +104,7 @@ ESP_Response ESP8266_sendATCommand(char* AT_Command)
 			LCD_displayString("Disabling Echo");
 			strcpy(Expected_Response,"\rATE0\r\r\n\r\nOK\r\n");
 		}
-		else if(strcmp(AT_Command,"AT+CWMODE=3\r\n") == 0)
+		else if(strcmp(AT_Command,"AT+CWMODE=1\r\n") == 0)
 		{
 			LCD_displayString("ESP Station Mode");
 		}
@@ -163,7 +154,7 @@ ESP_Response ESP8266_sendATCommand(char* AT_Command)
 		__asm("CPSIE i");
 		UART_u8SendString(ESP_u8_UART, (u8*)AT_Command);
 		u8 State = ESP8266_waitExpectedResponse(Expected_Response, timeout); /* wait to get the expected response */
-		if(State == ESP_ok)
+		if(State == ESP_ok || strcmp(AT_Command,"ATE0\r\n") == 0)
 		{
 			LCD_displayString("OK");
 			STK_u8SetmSBusyWait(1000);
@@ -196,12 +187,10 @@ void ESP8266_init(char ordersBuffer[][BUFFER_SIZE])
 
 	char AT_Command[20] = {0};
 
-	UART_u8SendByte(ESP_u8_UART, '\r');
-
 	strcpy(AT_Command,"ATE0\r\n"); /* command to disable the echo */
 	ESP8266_sendATCommand(AT_Command);
 
-	strcpy(AT_Command,"AT+CWMODE=3\r\n"); /* command to make the ESP in station mode */
+	strcpy(AT_Command,"AT+CWMODE=1\r\n"); /* command to make the ESP in station mode */
 	ESP8266_sendATCommand(AT_Command);
 
 	strcpy(AT_Command,"AT+CIPMUX=0\r\n"); /* Command to make the ESP has single connection */
@@ -270,15 +259,6 @@ void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 	char AT_Command[60] = {0};
 	u8 length = strlen(ESP_Data);
 
-	/* Command to check the ESP connection */
-	strcpy(AT_Command,"AT+CIPSTATUS");
-	if(ESP8266_sendATCommand(AT_Command) != ESP_ok)
-	{
-		/* Connecting to the server again so we can use it later */
-		sprintf((char*) AT_Command, (char*) "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n", IP, Port);
-		ESP8266_sendATCommand(AT_Command);
-	}
-
 	/* Command to send data server with defined length */
 	sprintf((char*) AT_Command, (char*) "AT+CIPSEND=%d\r\n", length+2);
 	ESP8266_sendATCommand(AT_Command);
@@ -288,12 +268,16 @@ void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 	UART_u8SendByte(ESP_u8_UART, length); /* The second byte is the length of the data */
 	UART_u8SendString(ESP_u8_UART, (u8 *)ESP_Data);  /* Sending the actual data */
 	__asm("CPSIE i");
-	STK_u8SetmSBusyWait(3);
+	STK_u8SetmSBusyWait(3000);
 	__asm("CPSID i");
 	ESP8266_resetBuffer();
 
 	/* Command to close the connection so we can send the data */
 	strcpy(AT_Command,"AT+CIPCLOSE\r\n");
+	ESP8266_sendATCommand(AT_Command);
+
+	/* Connecting to the server again so we can use it later */
+	sprintf((char*) AT_Command, (char*) "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n", IP, Port);
 	ESP8266_sendATCommand(AT_Command);
 
 	__asm volatile ("MSR PRIMASK,%0" : :"r"(OldPrimask)); /* Return the Primask to it's last value */
@@ -306,9 +290,9 @@ void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data)
 ********************************************************************************/
 void ESP8266_responseToServer(void)
 {
-	if(OrdersWaiting <= MAX_ORDERS)
+	if(ESPOrdersWaiting <= MAX_ORDERS)
 	{
-		OrdersWaiting++;
+		ESPOrdersWaiting++;
 		u8 index = 0;
 		while(temp[index++] != ':'); /* increment the index till it reach the order */
 		index += 2; /* add two to skip the first two garbage characters */

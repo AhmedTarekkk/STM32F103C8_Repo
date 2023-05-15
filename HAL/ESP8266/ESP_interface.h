@@ -25,18 +25,13 @@ typedef enum
 }ESP_Response;
 
 /*******************************************************************************
-*                      Functions Prototypes                                   *
+*                           Global Variables                                  *
 *******************************************************************************/
+extern volatile u8 ESPOrdersWaiting ;
 
 /*******************************************************************************
-* Function Name:		ESP8266_ISRreceive
-* Description:			Function to act as ISR for Uart so we can receive msgs from ESP
-* Parameters (in):    	None
-* Parameters (out):   	None
-* Return value:      	void
-********************************************************************************/
-
-void ESP8266_ISRreceive(void);
+*                      Functions Prototypes                                   *
+*******************************************************************************/
 
 /*******************************************************************************
 * Function Name:		ESP8266_waitExpectedResponse
@@ -98,15 +93,5 @@ void ESP8266_connectWifiAndServer(const char *SSID, const char *Pass,const char 
 ********************************************************************************/
 
 void ESP8266_sendData(const char *IP,const char *Port,const char *ESP_Data);
-
-/*******************************************************************************
-* Function Name:		ESP8266_responseToServer
-* Description:			Function used to so the ESP can communicate with the server in both directions
-* Parameters (in):    	None
-* Parameters (out):   	None
-* Return value:      	void
-********************************************************************************/
-
-void ESP8266_responseToServer(void);
 
 #endif /* ESP_INTERFACE_H_ */

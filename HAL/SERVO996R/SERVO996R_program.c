@@ -17,6 +17,7 @@
 #include "SERVO996R_config.h"
 #include "GPIO_interface.h"
 #include "TIMER1_interface.h"
+#include "GPT_interface.h"
 
 /*******************************************************************************
 *                      Functions Definitions                                   *
@@ -37,6 +38,12 @@ u8 SERVO996R_u8init(SERVO996R_initStruct_t * Copy_PstrServoInit)
 		TIMER1_u8InitPwmChannel(Copy_PstrServoInit->SERVO996R_u8_PWM_CHANNEL);
 		break;
 
+	case TIMER_u8_2:
+	case TIMER_u8_3:
+	case TIMER_u8_4:
+		GPT_u8InitPwmChannel(Copy_PstrServoInit->SERVO996R_u8_TIMER, Copy_PstrServoInit->SERVO996R_u8_PWM_CHANNEL);
+		break;
+
 	default:
 		Local_u8ErrorState = STD_TYPES_NOK;
 		break;
@@ -52,14 +59,21 @@ u8 SERVO996R_u8rotate(SERVO996R_initStruct_t * Copy_PstrServoInit , u8 Copy_u8An
 {
 	u8 Local_u8ErrorState = STD_TYPES_OK;
 
-	if(Copy_u8Angle >= SERVO996R_MIN_DEGREE && Copy_u8Angle <= SERVO996R_MAX_DEGREE && Copy_PstrServoInit != NULL)
+	if(Copy_u8Angle >= SERVO996R_MIN_DEGREE && Copy_u8Angle <= SERVO996R_MAX_DEGREE)
 	{
-		f32 Local_u8DutyCycle = SERVO996R_MIN_DUTY + Copy_u8Angle * (((float)SERVO996R_MAX_DUTY-SERVO996R_MIN_DUTY) \
+		f32 Local_f32DutyCycle = SERVO996R_MIN_DUTY + Copy_u8Angle * (((float)SERVO996R_MAX_DUTY-SERVO996R_MIN_DUTY) \
 				/(SERVO996R_MAX_DEGREE - SERVO996R_MIN_DEGREE)) ;
 		switch(Copy_PstrServoInit->SERVO996R_u8_TIMER)
 		{
 		case TIMER_u8_1:
-			TIMER1_u8SetPWM(Copy_PstrServoInit->SERVO996R_u8_PWM_CHANNEL, SERVO996R_FREQUENCY, Local_u8DutyCycle);
+			TIMER1_u8SetPWM(Copy_PstrServoInit->SERVO996R_u8_PWM_CHANNEL, SERVO996R_FREQUENCY, Local_f32DutyCycle);
+			break;
+
+		case TIMER_u8_2:
+		case TIMER_u8_3:
+		case TIMER_u8_4:
+			GPT_u8SetPWM(Copy_PstrServoInit->SERVO996R_u8_TIMER, Copy_PstrServoInit->SERVO996R_u8_PWM_CHANNEL \
+					, SERVO996R_FREQUENCY, Local_f32DutyCycle);
 			break;
 
 		default:
