@@ -15,6 +15,7 @@ uint32_t * const MSP_VALUE = (uint32_t *)&_estack;
 
 extern int main(void);
 void Reset_Handler(void);
+void Default_Handler(void);
 void NMI_Handler                (void)			__attribute__((weak, alias("Default_Handler")));
 void HardFault_Handler          (void)			__attribute__((weak, alias("Default_Handler")));
 void MemManage_Handler          (void)			__attribute__((weak, alias("Default_Handler")));
@@ -171,8 +172,13 @@ void Reset_Handler(void)
 {                                          
 	/* 1- Copy .data section from Flash into SRAM */
 	uint32_t Local_u32Counter ;
+	/* we deal with the pointers as (uint32_t ) with casting so the difference will give us the 
+		size in bytes not the number of locations between the two pointers, so now we can increment
+		the counter in the for loop with 1 and we have to cast source and destination to (uint8_t *) */
 	uint32_t Local_u32Size  = (uint32_t )&_edata - (uint32_t )&_sdata;
-	uint8_t * Local_pu8Src  = (uint8_t *)&_erodata ;
+	/* As Location counter deals only with VMA so we can't set the source as _sdata " VMA -> Ram " 
+		and we want the source to be from the flash so the source will be _erodata " VMA -> Flash */
+	uint8_t * Local_pu8Src  = (uint8_t *)&_erodata ; 
 	uint8_t * Local_pu8Dest = (uint8_t *)&_sdata ;
 	for(Local_u32Counter = 0 ; Local_u32Counter < Local_u32Size ; Local_u32Counter++)
 	{
