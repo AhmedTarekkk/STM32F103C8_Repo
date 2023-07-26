@@ -1,0 +1,4 @@
+../Src/main.c:27:6:Custom_ITM	16	static
+../Src/main.c:35:30:Change_SP_To_PSP	0	static,ignoring_inline_asm
+../Src/main.c:55:10:Add_Five_Numbers	48	static
+../Src/main.c:66:5:main	4	static
