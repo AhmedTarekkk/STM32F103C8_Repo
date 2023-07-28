@@ -3,8 +3,13 @@ CC = arm-none-eabi-gcc
 #Analyze object file to see the assembly
 ASM = arm-none-eabi-objdump -d
 
-#Analyze object file to see the assembly
+#Analyze object file to see its content
 Analyze = arm-none-eabi-objdump -h
+
+#Analyze object file to see its symbol table
+#To print the symbol table use
+#arm-none-eabi-objdump -t file.o
+SymbolTable = arm-none-eabi-objdump -t
 
 MACH = cortex-m3
 
@@ -16,8 +21,7 @@ CONV = arm-none-eabi-objcopy -O
 HEX = ihex
 BIN = binary
 
-#To print the symbol table use
-#arm-none-eabi-objdump -t file.o
+##########################################
 
 main.o:main.c
 	$(CC) $(CFLAGS) $^ -o $@
@@ -42,7 +46,6 @@ all_o : *.c
 	$(CC) $(CFLAGS) $^
 ##########################################
 
-
 main_log.s:main.o
 	$(ASM) $< > $@
 	
@@ -55,18 +58,28 @@ stm32f103_startup.s:stm32f103_startup.o
 final.lss : all_o
 	$(ASM) *.o > $@
 
+##########################################
+
 stm32f103_analyze.s:stm32f103_startup.o
 	$(Analyze) $< > $@
 
 analyze.s: all_o
 	$(Analyze) *.o > $@
-		
+
+mainSymbolTable.s:main.o
+	$(SymbolTable) $<
+##########################################
 
 symbol.txt:final.elf
 	arm-none-eabi-nm $^ > $@
+##########################################
+
+all: final.hex analyze.s final.lss symbol.txt
+
+allv2:main.o GPIO_program.o RCC_program.o STK_program.o stm32f103_startup.o final.elf 
 
 clean:
-	rm -rf *.o *.elf *.s *.map *.txt *.lss *.bin *.hex
+	rm -rf *.o *.elf *.s *.asm *.map *.txt *.lss *.bin *.hex *.i
 
 final.elf : all_o
 	$(CC) $(LDFLAGS) *.o -o $@
@@ -76,10 +89,8 @@ final.hex : final.elf
 	
 final.bin : final.elf
 	$(CONV) $(BIN) $^ $@
-	
-allv2:main.o GPIO_program.o RCC_program.o STK_program.o stm32f103_startup.o final.elf 
 
-all: final.hex analyze.s final.lss symbol.txt
+##########################################
 
 gdb:
 	arm-none-eabi-gdb
